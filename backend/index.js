@@ -1,38 +1,30 @@
-import { Configuration, OpenAIApi } from 'openai';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import 'dotenv/config';
 
+import chatRoutes from './src/routes/chat.js';
+
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 app.use(bodyParser.json());
 app.use(cors());
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_KEY,
+app.get('/', (request, response) => {
+  response.json({ message: 'ok' });
 });
-const openai = new OpenAIApi(configuration);
 
-app.post('/', async (request, response) => {
-  const { chats } = request.body;
+app.use('/chat', chatRoutes);
 
-  const result = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a EbereGPT. You can help with graphic design tasks',
-      },
-      ...chats,
-    ],
-  });
+/* Error handler middleware */
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  console.error(err.message, err.stack);
+  res.status(statusCode).json({ message: err.message });
 
-  response.json({
-    output: result.data.choices[0].message,
-  });
+  return;
 });
 
 app.listen(port, () => {
-  console.log(`listening on port ${port}`);
+  console.log(`Listening on port ${port}...`);
 });
