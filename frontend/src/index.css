@@ -14,6 +14,16 @@
   -webkit-text-size-adjust: 100%;
 }
 
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+main {
+  max-width: 800px;
+  margin: auto;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
