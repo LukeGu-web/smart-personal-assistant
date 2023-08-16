@@ -5,6 +5,8 @@ type Message = {
   content: string;
 };
 
+const api_site = import.meta.env.VITE_API_SITE;
+
 function Dialog() {
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState<Message[]>([]);
@@ -23,7 +25,7 @@ function Dialog() {
 
     setMessage('');
 
-    fetch('http://localhost:8000/', {
+    fetch(api_site, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
