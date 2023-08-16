@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from 'openai';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import 'dotenv/config';
 
 const app = express();
 const port = 8000;
@@ -9,7 +10,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: process.env.OPENAI_KEY,
 });
 const openai = new OpenAIApi(configuration);
 

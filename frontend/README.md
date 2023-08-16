@@ -1,3 +1,10 @@
+# How to run this app
+`npm run dev`
+
+## Styling
+Using tailwind.
+Use this cheat sheet to help your develop the UI, https://tailwindcomponents.com/cheatsheet/
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
