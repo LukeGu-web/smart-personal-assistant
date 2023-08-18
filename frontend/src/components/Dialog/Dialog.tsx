@@ -25,7 +25,7 @@ function Dialog() {
 
     setMessage('');
 
-    fetch(api_site, {
+    fetch(`${api_site}/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
