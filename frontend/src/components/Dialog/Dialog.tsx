@@ -25,6 +25,8 @@ function Dialog() {
 
     setMessage('');
 
+    console.log('chats: ', chats);
+
     fetch(`${api_site}/chat`, {
       method: 'POST',
       headers: {
@@ -39,7 +41,7 @@ function Dialog() {
         messages.push(data.output);
         setChats(messages);
         setIsTyping(false);
-        scrollTo(0, 1e10);
+        // scrollTo(0, 1e10);
       })
       .catch((error) => {
         console.log(error);
