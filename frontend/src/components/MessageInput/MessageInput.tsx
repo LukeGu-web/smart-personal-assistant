@@ -3,6 +3,7 @@ import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import Textarea from '@mui/joy/Textarea';
+import Tooltip from '@mui/joy/Tooltip';
 import { IconButton, Stack } from '@mui/joy';
 
 export type MessageInputProps = {
@@ -50,7 +51,9 @@ export default function MessageInput({
               <IconButton variant='plain' color='neutral'>
                 <i data-feather='more-horizontal' />
               </IconButton>
-              <Button onClick={handleClick}>Send</Button>
+              <Tooltip title='Ctrl + Enter' size='sm' variant='plain'>
+                <Button onClick={handleClick}>Send</Button>
+              </Tooltip>
             </Stack>
           }
           onKeyDown={(event) => {

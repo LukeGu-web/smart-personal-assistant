@@ -1,14 +1,17 @@
-// import { useState } from 'react';
-import Dialog from './components/Dialog/Dialog';
+import { useState } from 'react';
+import AIButton from './components/AIButton/AIButton';
 import MessagesPane from './components/MessagesPane/MessagesPane';
 import './App.css';
 
 function App() {
+  const [showChat, setShowChat] = useState(false);
   return (
     <>
-      <Dialog />
-
-      <MessagesPane />
+      {showChat ? (
+        <MessagesPane onClose={() => setShowChat(false)} />
+      ) : (
+        <AIButton onClick={() => setShowChat(true)} />
+      )}
     </>
   );
 }

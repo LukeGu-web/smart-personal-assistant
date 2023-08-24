@@ -1,11 +1,17 @@
 import * as React from 'react';
 import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
 import Sheet from '@mui/joy/Sheet';
 import Stack from '@mui/joy/Stack';
+import CloseIcon from '@mui/icons-material/Close';
 import AvatarWithStatus from '../AvatarWithStatus/AvatarWithStatus';
 import ChatBubble from '../ChatBubble/ChatBubble';
 import MessageInput from '../MessageInput/MessageInput';
 import { MessageProps } from '../../types';
+
+type MessagesPaneProps = {
+  onClose: () => void;
+};
 
 type AIMessage = {
   role: string;
@@ -14,7 +20,7 @@ type AIMessage = {
 
 const api_site = import.meta.env.VITE_API_SITE;
 
-export default function MessagesPane() {
+export default function MessagesPane({ onClose }: MessagesPaneProps) {
   const [chatMessages, setChatMessages] = React.useState<MessageProps[]>([]);
   const [chats, setChats] = React.useState<AIMessage[]>([]);
   const [textAreaValue, setTextAreaValue] = React.useState('');
@@ -65,20 +71,22 @@ export default function MessagesPane() {
         console.log(error);
       });
   };
-  console.log('chatMessages: ', chatMessages);
-  console.log('chats: ', chats);
-  console.log('isTyping:', isTyping);
+
   return (
     <Sheet
       sx={{
-        minHeight: '50vh',
-        minWidth: '50vw',
-        width: { xs: '100%', lg: '50%' },
-        height: { xs: '80%', lg: '60%' },
+        height: { xs: '100%', lg: '40rem' },
+        width: { xs: '100%', lg: '40rem' },
         display: 'flex',
         flexDirection: 'column',
+        borderRadius: '1rem',
       }}
     >
+      <Stack padding={2} direction='column' alignItems='end'>
+        <Button variant='plain' size='sm' onClick={onClose}>
+          <CloseIcon />
+        </Button>
+      </Stack>
       <Box
         sx={{
           display: 'flex',
