@@ -8,18 +8,19 @@ type AIButtonProps = {
 export default function AIButton({ onClick }: AIButtonProps) {
   return (
     <Button
-      variant='outlined'
+      size='sm'
+      variant='soft'
       color='success'
       onClick={onClick}
       sx={{
+        py: 1.5,
         borderRadius: '50%',
-        py: 2,
         position: 'absolute',
         bottom: '2rem',
         right: '2rem',
       }}
     >
-      <SupportAgentIcon fontSize='large' />
+      <SupportAgentIcon sx={{ fontSize: 50 }} />
     </Button>
   );
 }

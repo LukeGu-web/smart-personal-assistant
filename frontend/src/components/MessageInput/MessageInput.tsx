@@ -7,12 +7,14 @@ import Tooltip from '@mui/joy/Tooltip';
 import { IconButton, Stack } from '@mui/joy';
 
 export type MessageInputProps = {
+  isTyping: boolean;
   textAreaValue: string;
   setTextAreaValue: (value: string) => void;
   onSubmit: () => void;
 };
 
 export default function MessageInput({
+  isTyping,
   textAreaValue,
   setTextAreaValue,
   onSubmit,
@@ -52,7 +54,9 @@ export default function MessageInput({
                 <i data-feather='more-horizontal' />
               </IconButton>
               <Tooltip title='Ctrl + Enter' size='sm' variant='plain'>
-                <Button onClick={handleClick}>Send</Button>
+                <Button loading={isTyping} onClick={handleClick}>
+                  Send
+                </Button>
               </Tooltip>
             </Stack>
           }

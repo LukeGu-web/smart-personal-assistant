@@ -121,6 +121,7 @@ export default function MessagesPane({ onClose }: MessagesPaneProps) {
       </Box>
 
       <MessageInput
+        isTyping={isTyping}
         textAreaValue={textAreaValue}
         setTextAreaValue={setTextAreaValue}
         onSubmit={() => {
