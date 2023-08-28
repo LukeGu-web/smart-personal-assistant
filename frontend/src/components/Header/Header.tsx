@@ -32,7 +32,7 @@ export default function Header() {
           />
         }
       >
-        Logo
+        Smart Assistant
       </Typography>
       <ColorSchemeToggle />
     </Box>

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
-import Checkbox from '@mui/joy/Checkbox';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
@@ -9,18 +8,17 @@ import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 
 import PageContainer from '../components/PageContainer/PageContainer';
-import GoogleIcon from '../assets/GoogleIcon';
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
   password: HTMLInputElement;
   persistent: HTMLInputElement;
 }
-interface SignInFormElement extends HTMLFormElement {
+interface SignUpFormElement extends HTMLFormElement {
   readonly elements: FormElements;
 }
 
-export default function Login() {
+export default function SignUp() {
   return (
     <PageContainer>
       <>
@@ -72,16 +70,11 @@ export default function Login() {
                 },
               }}
             >
-              <div>
-                <Typography component='h1' fontSize='xl2' fontWeight='lg'>
-                  Sign in to your account
-                </Typography>
-                <Typography level='body-sm' sx={{ my: 1, mb: 3 }}>
-                  Welcome back
-                </Typography>
-              </div>
+              <Typography component='h1' fontSize='xl2' fontWeight='lg'>
+                Sign up for Smart assistant
+              </Typography>
               <form
-                onSubmit={(event: React.FormEvent<SignInFormElement>) => {
+                onSubmit={(event: React.FormEvent<SignUpFormElement>) => {
                   event.preventDefault();
                   const formElements = event.currentTarget.elements;
                   const data = {
@@ -93,47 +86,27 @@ export default function Login() {
                 }}
               >
                 <FormControl required>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>First Name *</FormLabel>
+                  <Input type='text' name='firstname' />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Last Name *</FormLabel>
+                  <Input type='text' name='lastname' />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Email Address *</FormLabel>
                   <Input type='email' name='email' />
                 </FormControl>
                 <FormControl required>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Password *</FormLabel>
                   <Input type='password' name='password' />
                 </FormControl>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Checkbox
-                    size='sm'
-                    label='Remember for 30 days'
-                    name='persistent'
-                  />
-                  <Link
-                    fontSize='sm'
-                    href='#replace-with-a-link'
-                    fontWeight='lg'
-                  >
-                    Forgot your password?
-                  </Link>
-                </Box>
                 <Button type='submit' fullWidth>
-                  Sign in
+                  Sign up
                 </Button>
               </form>
-              <Button
-                variant='outlined'
-                color='neutral'
-                fullWidth
-                startDecorator={<GoogleIcon />}
-              >
-                Sign in with Google
-              </Button>
-              <Link fontSize='sm' href='/sign-up' fontWeight='lg'>
-                Don't have an account? Sign Up
+              <Link fontSize='sm' href='/login' fontWeight='lg'>
+                Already have an account? Sign in
               </Link>
             </Box>
           </Box>
