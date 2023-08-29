@@ -23,3 +23,10 @@ export type ChatProps = {
   sender: UserProps;
   messages: MessageProps[];
 };
+
+export type TaskProps = {
+  id: string;
+  label: string;
+  isCompleted: boolean;
+  completedDate: Date | null;
+};
