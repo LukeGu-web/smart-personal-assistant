@@ -39,6 +39,9 @@ export default function Home() {
           <Link component={RouterLink} to='/todo-list'>
             Todo List
           </Link>
+          <Link component={RouterLink} to='/calendar'>
+            Calendar
+          </Link>
         </Box>
 
         {showChat ? (

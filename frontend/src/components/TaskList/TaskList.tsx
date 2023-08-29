@@ -129,7 +129,9 @@ export default function TaskList({
           color={editMode ? 'success' : 'primary'}
           onClick={() => setEditMode(!editMode)}
         >
-          {editMode ? 'Save' : 'Edit task list'}
+          {editMode
+            ? 'Save'
+            : `Edit ${completedList ? 'completed' : 'to-do'} list`}
         </Button>
       </Stack>
       <List
