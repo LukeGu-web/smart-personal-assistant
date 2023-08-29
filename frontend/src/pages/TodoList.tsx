@@ -59,6 +59,7 @@ export default function TodoList() {
           flexDirection: 'column',
           gap: 2,
           margin: '0 auto',
+          padding: 1,
           backdropFilter: 'blur(4px)',
         }}
       >

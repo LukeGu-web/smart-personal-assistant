@@ -27,7 +27,7 @@ export default function TaskCreator({ onCreate }: TaskCreatorProps) {
       placeholder='New Task'
       startDecorator={<FormatListBulletedIcon />}
       endDecorator={
-        <Button onClick={handleSubmit}>
+        <Button disabled={label === ''} onClick={handleSubmit}>
           <AddIcon />
         </Button>
       }
