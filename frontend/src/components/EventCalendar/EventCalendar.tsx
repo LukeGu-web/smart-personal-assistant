@@ -72,7 +72,10 @@ export default function EventCalendar() {
               borderBottom: '1px solid grey',
             }}
           >
-            <Typography level='body-lg' sx={{ paddingTop: '2rem' }}>
+            <Typography
+              level='title-lg'
+              sx={{ paddingTop: '2rem', marginLeft: 1 }}
+            >
               {weekday}
             </Typography>
           </Grid>

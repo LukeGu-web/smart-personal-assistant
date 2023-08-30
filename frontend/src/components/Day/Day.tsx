@@ -21,6 +21,7 @@ type DayProps = {
 };
 
 export default function Day({ date, onCreateEvent }: DayProps) {
+  const isToday = dayjs(date).isToday();
   return (
     <Grid
       xs={2}
@@ -31,14 +32,18 @@ export default function Day({ date, onCreateEvent }: DayProps) {
     >
       {date && (
         <Button
-          variant={dayjs(date).isToday() ? 'solid' : 'plain'}
-          sx={{ width: '100%', borderRadius: 0 }}
+          variant={isToday ? 'solid' : 'plain'}
+          sx={{
+            width: '100%',
+            borderRadius: 0,
+          }}
           onClick={() => onCreateEvent(date)}
         >
           <Typography
             level='body-lg'
             sx={{
               paddingTop: '2rem',
+              color: `${isToday ? '#FFBB5C' : 'default'}`,
             }}
           >
             {dayjs(date).date()}
