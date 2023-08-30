@@ -34,7 +34,6 @@ export default function TodoList() {
     setTaskList([...newList]);
   };
   const handleEdit = (id: string, label: string) => {
-    console.log(id);
     const newList = taskList.map((item) =>
       item.id === id ? { ...item, label } : item
     );

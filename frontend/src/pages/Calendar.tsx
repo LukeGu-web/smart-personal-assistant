@@ -1,4 +1,4 @@
-import Box from '@mui/joy/Box';
+import { Box, Typography } from '@mui/joy';
 
 import PageContainer from '../components/PageContainer/PageContainer';
 import EventCalendar from '../components/EventCalendar/EventCalendar';
@@ -18,7 +18,9 @@ export default function Calendar() {
           backdropFilter: 'blur(4px)',
         }}
       >
-        <p>Calendar</p>
+        <Typography component='h1' fontSize='xl2' fontWeight='lg'>
+          Event Calendar
+        </Typography>
         <EventCalendar />
       </Box>
     </PageContainer>
