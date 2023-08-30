@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { months } from '../data';
 
 export const monthString = (date: Date) =>
