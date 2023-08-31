@@ -19,7 +19,7 @@ export default function AIButton({ onClick }: AIButtonProps) {
           borderRadius: '50%',
           position: 'fixed',
           bottom: '0',
-          right: '-4rem',
+          right: '0',
         }}
       >
         <SupportAgentIcon sx={{ fontSize: 50 }} />

@@ -4,11 +4,13 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import TodoList from './pages/TodoList';
 import Calendar from './pages/Calendar';
+import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
+    errorElement: <NotFound />,
   },
   {
     path: '/login',

@@ -6,6 +6,7 @@ import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
+import { Link as RouterLink } from 'react-router-dom';
 
 import PageContainer from '../components/PageContainer/PageContainer';
 
@@ -105,7 +106,12 @@ export default function SignUp() {
                   Sign up
                 </Button>
               </form>
-              <Link fontSize='sm' href='/login' fontWeight='lg'>
+              <Link
+                component={RouterLink}
+                fontSize='sm'
+                to='/login'
+                fontWeight='lg'
+              >
                 Already have an account? Sign in
               </Link>
             </Box>

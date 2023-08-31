@@ -7,6 +7,7 @@ import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
+import { Link as RouterLink } from 'react-router-dom';
 
 import PageContainer from '../components/PageContainer/PageContainer';
 import GoogleIcon from '../assets/GoogleIcon';
@@ -113,8 +114,9 @@ export default function Login() {
                     name='persistent'
                   />
                   <Link
+                    component={RouterLink}
                     fontSize='sm'
-                    href='#replace-with-a-link'
+                    to='#replace-with-a-link'
                     fontWeight='lg'
                   >
                     Forgot your password?
@@ -132,7 +134,12 @@ export default function Login() {
               >
                 Sign in with Google
               </Button>
-              <Link fontSize='sm' href='/sign-up' fontWeight='lg'>
+              <Link
+                component={RouterLink}
+                fontSize='sm'
+                to='/sign-up'
+                fontWeight='lg'
+              >
                 Don't have an account? Sign Up
               </Link>
             </Box>
