@@ -8,6 +8,10 @@ import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
   {
+    path: '*',
+    element: <NotFound />,
+  },
+  {
     path: '/',
     element: <Home />,
     errorElement: <NotFound />,
