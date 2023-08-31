@@ -5,12 +5,9 @@ import SignUp from './pages/SignUp';
 import TodoList from './pages/TodoList';
 import Calendar from './pages/Calendar';
 import NotFound from './pages/NotFound';
+import ForgotPassword from './pages/ForgotPassword';
 
 const router = createBrowserRouter([
-  {
-    path: '*',
-    element: <NotFound />,
-  },
   {
     path: '/',
     element: <Home />,
@@ -23,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/sign-up',
     element: <SignUp />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPassword />,
   },
   {
     path: '/calendar',

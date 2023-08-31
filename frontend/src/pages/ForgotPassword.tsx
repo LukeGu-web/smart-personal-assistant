@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
-import Checkbox from '@mui/joy/Checkbox';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
@@ -10,7 +9,6 @@ import Typography from '@mui/joy/Typography';
 import { Link as RouterLink } from 'react-router-dom';
 
 import PageContainer from '../components/PageContainer/PageContainer';
-import GoogleIcon from '../assets/GoogleIcon';
 import SignBgImg from '../components/SignBgImg/SignBgImg';
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -18,11 +16,11 @@ interface FormElements extends HTMLFormControlsCollection {
   password: HTMLInputElement;
   persistent: HTMLInputElement;
 }
-interface SignInFormElement extends HTMLFormElement {
+interface SignUpFormElement extends HTMLFormElement {
   readonly elements: FormElements;
 }
 
-export default function Login() {
+export default function ForgotPassword() {
   return (
     <PageContainer>
       <>
@@ -74,74 +72,38 @@ export default function Login() {
                 },
               }}
             >
-              <div>
-                <Typography component='h1' fontSize='xl2' fontWeight='lg'>
-                  Sign in to your account
-                </Typography>
-                <Typography level='body-sm' sx={{ my: 1, mb: 3 }}>
-                  Welcome back
-                </Typography>
-              </div>
+              <Typography component='h1' fontSize='xl2' fontWeight='lg'>
+                Forgot password
+              </Typography>
               <form
-                onSubmit={(event: React.FormEvent<SignInFormElement>) => {
+                onSubmit={(event: React.FormEvent<SignUpFormElement>) => {
                   event.preventDefault();
                   const formElements = event.currentTarget.elements;
                   const data = {
                     email: formElements.email.value,
-                    password: formElements.password.value,
-                    persistent: formElements.persistent.checked,
                   };
                   alert(JSON.stringify(data, null, 2));
                 }}
               >
+                <Typography component='h2'>
+                  Lost your password? Please enter your email address. You will
+                  receive a link to create a new password via email.
+                </Typography>
                 <FormControl required>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email *</FormLabel>
                   <Input type='email' name='email' />
                 </FormControl>
-                <FormControl required>
-                  <FormLabel>Password</FormLabel>
-                  <Input type='password' name='password' />
-                </FormControl>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Checkbox
-                    size='sm'
-                    label='Remember for 30 days'
-                    name='persistent'
-                  />
-                  <Link
-                    component={RouterLink}
-                    fontSize='sm'
-                    to='/forgot-password'
-                    fontWeight='lg'
-                  >
-                    Forgot your password?
-                  </Link>
-                </Box>
                 <Button type='submit' fullWidth>
-                  Sign in
+                  Reset password
                 </Button>
               </form>
-              <Button
-                variant='outlined'
-                color='neutral'
-                fullWidth
-                startDecorator={<GoogleIcon />}
-              >
-                Sign in with Google
-              </Button>
               <Link
                 component={RouterLink}
                 fontSize='sm'
-                to='/sign-up'
+                to='/login'
                 fontWeight='lg'
               >
-                Don't have an account? Sign Up
+                Remember your password?
               </Link>
             </Box>
           </Box>
