@@ -6,6 +6,7 @@ import TodoList from './pages/TodoList';
 import Calendar from './pages/Calendar';
 import NotFound from './pages/NotFound';
 import ForgotPassword from './pages/ForgotPassword';
+import Profile from './pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: '/forgot-password',
     element: <ForgotPassword />,
+  },
+  {
+    path: '/profile',
+    element: <Profile />,
   },
   {
     path: '/calendar',
