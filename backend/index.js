@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import 'dotenv/config';
 
-import chatRoutes from './src/routes/chat.js';
+import chatRouter from './src/routes/chat.router.js';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -14,7 +14,7 @@ app.get('/', (request, response) => {
   response.json({ message: 'ok' });
 });
 
-app.use('/chat', chatRoutes);
+app.use('/chat', chatRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
