@@ -1,10 +1,12 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { pool } from '../services/db.js';
+import { nanoid } from '../utils/index.js';
 
 const saltRounds = 10;
 const secret = 'smart assistance secret';
 
+// signup
 export const createUser = async (request, response) => {
   const { firstname, lastname, email, password } = request.body;
   const salt = bcrypt.genSaltSync(saltRounds);
@@ -15,9 +17,10 @@ export const createUser = async (request, response) => {
       email,
     ]);
     if (!user.rows[0]) {
+      const id = nanoid(5);
       const result = await client.query(
-        'INSERT INTO users (firstname, lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING *',
-        [firstname, lastname, email, hashPassword]
+        'INSERT INTO users (id, firstname, lastname, email, password) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [id, firstname, lastname, email, hashPassword]
       );
       console.log('CreateUser', result.rows[0]);
       response.status(201).json({
@@ -29,37 +32,6 @@ export const createUser = async (request, response) => {
       response.status(409).json({
         success: false,
         message: 'User already existed',
-      });
-    }
-  } catch (error) {
-    response.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  } finally {
-    client.release();
-  }
-};
-
-// GetUserByEmail
-export const getUserByEmail = async (request, response) => {
-  const email = request.params.email;
-  const client = await pool.connect();
-  try {
-    const result = await client.query('SELECT * FROM users WHERE email = $1', [
-      email,
-    ]);
-    console.log('getUser', result.rows[0]);
-    if (!result.rows[0]) {
-      response.status(400).json({
-        success: false,
-        message: 'Not found the user',
-      });
-    } else {
-      response.status(200).json({
-        success: true,
-        message: 'Found the user',
-        user: result.rows[0],
       });
     }
   } catch (error) {
@@ -114,19 +86,15 @@ export const login = async (request, response) => {
   }
 };
 
-// forgot password
-
-// edit profile
-export const updateUserByEmail = async (request, response) => {
-  const email = request.params.email;
-  const { firstname, lastname } = request.body;
+// GetUserById
+export const getUserById = async (request, response) => {
+  const id = request.params.id;
   const client = await pool.connect();
   try {
-    const result = await client.query(
-      'UPDATE users SET firstname = $1, lastname = $2 WHERE email = $3',
-      [firstname, lastname, email]
-    );
-    console.log('User profile updated', email, result);
+    const result = await client.query('SELECT * FROM users WHERE id = $1', [
+      id,
+    ]);
+    console.log('getUser', result.rows[0]);
     if (!result.rows[0]) {
       response.status(400).json({
         success: false,
@@ -135,8 +103,72 @@ export const updateUserByEmail = async (request, response) => {
     } else {
       response.status(200).json({
         success: true,
+        message: 'Found the user',
+        user: result.rows[0],
+      });
+    }
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  } finally {
+    client.release();
+  }
+};
+
+// GetUserByEmail
+export const getUserByEmail = async (request, response) => {
+  const email = request.params.email;
+  const client = await pool.connect();
+  try {
+    const result = await client.query('SELECT * FROM users WHERE email = $1', [
+      email,
+    ]);
+    console.log('getUser', result.rows[0]);
+    if (!result.rows[0]) {
+      response.status(400).json({
+        success: false,
+        message: 'Not found the user',
+      });
+    } else {
+      response.status(200).json({
+        success: true,
+        message: 'Found the user',
+        user: result.rows[0],
+      });
+    }
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  } finally {
+    client.release();
+  }
+};
+
+// edit profile
+export const updateUserById = async (request, response) => {
+  const id = request.params.id;
+  const { firstname, lastname } = request.body;
+  const client = await pool.connect();
+  try {
+    const result = await client.query(
+      'UPDATE users SET firstname = $1, lastname = $2 WHERE id = $3',
+      [firstname, lastname, id]
+    );
+    console.log('User profile updated', id);
+    if (result.rowCount > 0) {
+      response.status(200).json({
+        success: true,
         message: 'User profile updated successfully',
         updatedUser: result.rows[0],
+      });
+    } else {
+      response.status(400).json({
+        success: false,
+        message: 'Not found the user',
       });
     }
   } catch (error) {
@@ -150,23 +182,21 @@ export const updateUserByEmail = async (request, response) => {
 };
 
 // Delete user
-export const deleteUserByEmail = async (request, response) => {
-  const email = request.params.email;
+export const deleteUserById = async (request, response) => {
+  const id = request.params.id;
   const client = await pool.connect();
   try {
-    const result = await client.query('DELETE FROM users WHERE email = $1', [
-      email,
-    ]);
-    console.log('Delete a user', email, result.rows[0]);
-    if (!result.rows[0]) {
-      response.status(400).json({
-        success: false,
-        message: 'Not found the user',
-      });
-    } else {
+    const result = await client.query('DELETE FROM users WHERE id = $1', [id]);
+    console.log('Delete a user', id);
+    if (result.rowCount > 0) {
       response.status(200).json({
         success: true,
         message: 'Delete a user successfully',
+      });
+    } else {
+      response.status(400).json({
+        success: false,
+        message: 'Not found the user',
       });
     }
   } catch (error) {
@@ -178,3 +208,5 @@ export const deleteUserByEmail = async (request, response) => {
     client.release();
   }
 };
+
+// forgot password
