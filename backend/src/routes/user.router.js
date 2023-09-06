@@ -1,5 +1,4 @@
 import { Router } from 'express';
-// import { pool, query } from './db.js';
 import {
   login,
   createUser,
