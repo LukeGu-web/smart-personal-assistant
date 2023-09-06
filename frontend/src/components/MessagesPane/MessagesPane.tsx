@@ -45,7 +45,7 @@ export default function MessagesPane({ onClose }: MessagesPaneProps) {
 
     setTextAreaValue('');
 
-    fetch(`${api_site}/chat`, {
+    fetch(`${api_site}/chat/ai`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
