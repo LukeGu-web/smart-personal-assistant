@@ -21,7 +21,7 @@ export const chatWithAI = async (request, response) => {
   });
 };
 
-// save a chat history
+// save a chat history, one user only have one chat
 export const saveUserChat = async (request, response) => {
   const { user_id, messages } = request.body;
   const jsonMessages = JSON.stringify(messages);
@@ -32,8 +32,7 @@ export const saveUserChat = async (request, response) => {
   ]);
   console.log('getUser', user.rows[0]);
   if (!user.rows[0]) {
-    // create a new chat
-    //    id, user_id, timestamp(created time), json of messages
+    // create a new chat => id, user_id, timestamp(created time), json of messages
     const id = nanoid(5);
     const timestamp = new Date();
     const chat = await client.query(
@@ -59,3 +58,63 @@ export const saveUserChat = async (request, response) => {
 };
 
 // get chat history
+export const getChatByUserId = async (request, response) => {
+  const user_id = request.params.user_id;
+  const client = await pool.connect();
+  try {
+    const result = await client.query(
+      'SELECT * FROM chats WHERE user_id = $1',
+      [user_id]
+    );
+    console.log('getChat', result.rows[0]);
+    if (!result.rows[0]) {
+      response.status(400).json({
+        success: false,
+        message: 'Not found chat history',
+      });
+    } else {
+      response.status(200).json({
+        success: true,
+        message: 'Found the chat history',
+        chat: result.rows[0],
+      });
+    }
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  } finally {
+    client.release();
+  }
+};
+
+// Delete chat history
+export const deleteChatByUserId = async (request, response) => {
+  const user_id = request.params.user_id;
+  const client = await pool.connect();
+  try {
+    const result = await client.query('DELETE FROM chats WHERE user_id = $1', [
+      user_id,
+    ]);
+    console.log('Delete chat history of user', user_id);
+    if (result.rowCount > 0) {
+      response.status(200).json({
+        success: true,
+        message: 'Delete user chat history successfully',
+      });
+    } else {
+      response.status(400).json({
+        success: false,
+        message: 'Not found the user',
+      });
+    }
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  } finally {
+    client.release();
+  }
+};
