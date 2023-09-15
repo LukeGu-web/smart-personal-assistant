@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { pool } from '../services/db.js';
-import { nanoid } from '../utils/index.js';
+import { nanoid, sendEmail } from '../utils/index.js';
 
 const saltRounds = 10;
 const secret = 'smart assistance secret';
@@ -54,7 +54,7 @@ export const login = async (request, response) => {
       email,
     ]);
     const isCorrect = bcrypt.compareSync(password, result.rows[0].password); // true
-    console.log('Login successfully', email);
+    console.log('Login', email);
     if (isCorrect) {
       var token = jwt.sign(
         {
@@ -210,3 +210,31 @@ export const deleteUserById = async (request, response) => {
 };
 
 // forgot password
+export const resetPasswordByemail = async (request, response) => {
+  const { email } = request.body;
+  const client = await pool.connect();
+  const user = await client.query('SELECT * FROM users WHERE email = $1', [
+    email,
+  ]);
+  if (!user.rows[0]) {
+    response.status(409).json({
+      success: false,
+      message: 'User not existed. Please check your email address.',
+    });
+  } else {
+    var token = jwt.sign(
+      {
+        email: result.rows[0].email,
+      },
+      secret,
+      { expiresIn: '1h' }
+    );
+    const link = `${process.env.HOST_SITE}/reset-password?token=${token}`;
+    const result = await sendEmail('mythnan@gmail.com', 'Password reset', link);
+    if (result.success) {
+      response.status(200).json(result);
+    } else {
+      response.status(400).json(result);
+    }
+  }
+};

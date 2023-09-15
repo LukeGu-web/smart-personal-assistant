@@ -6,6 +6,7 @@ import {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  resetPasswordByemail,
 } from '../controllers/user.controller.js';
 
 const userRouter = Router();
@@ -15,5 +16,6 @@ userRouter.get('/getUserById/:id', getUserById);
 userRouter.get('/getUserByEmail/:email', getUserByEmail);
 userRouter.put('/updateUserById/:id', updateUserById);
 userRouter.delete('/deleteUserById/:id', deleteUserById);
+userRouter.get('/resetPasswordByemail/:email', resetPasswordByemail);
 
 export default userRouter;
