@@ -11,6 +11,6 @@ const chatRouter = Router();
 chatRouter.post('/ai', chatWithAI);
 chatRouter.post('/saveUserChat', saveUserChat);
 chatRouter.get('/getChatByUserId/:user_id', getChatByUserId);
-chatRouter.delete('/getChatByUserId/:user_id', deleteChatByUserId);
+chatRouter.delete('/deleteChatByUserId/:user_id', deleteChatByUserId);
 
 export default chatRouter;

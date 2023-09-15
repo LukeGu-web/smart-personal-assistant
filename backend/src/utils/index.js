@@ -24,7 +24,7 @@ export const sendEmail = async (email, subject, link) => {
       subject: subject,
       html: html,
     });
-
+    console.log('Sent email sucessfully!');
     return {
       success: true,
       message: 'email sent sucessfully',

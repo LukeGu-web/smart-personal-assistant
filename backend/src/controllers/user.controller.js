@@ -224,7 +224,7 @@ export const resetPasswordByemail = async (request, response) => {
   } else {
     var token = jwt.sign(
       {
-        email: result.rows[0].email,
+        email: user.rows[0].email,
       },
       secret,
       { expiresIn: '1h' }
