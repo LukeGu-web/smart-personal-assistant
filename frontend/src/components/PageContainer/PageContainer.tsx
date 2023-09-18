@@ -3,6 +3,8 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
+import { ToastContainer } from 'react-toastify';
+
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 type PageContainerProps = {
@@ -33,6 +35,7 @@ export default function PageContainer({ children }: PageContainerProps) {
         <Header />
         {children}
         <Footer />
+        <ToastContainer position='bottom-right' autoClose={3000} />
       </Box>
     </CssVarsProvider>
   );

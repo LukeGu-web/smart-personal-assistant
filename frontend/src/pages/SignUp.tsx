@@ -1,24 +1,12 @@
-import * as React from 'react';
 import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
+import { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
-import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import { Link as RouterLink } from 'react-router-dom';
 
 import PageContainer from '../components/PageContainer/PageContainer';
 import SignBgImg from '../components/SignBgImg/SignBgImg';
-
-interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement;
-  password: HTMLInputElement;
-  persistent: HTMLInputElement;
-}
-interface SignUpFormElement extends HTMLFormElement {
-  readonly elements: FormElements;
-}
+import SignUpForm from '../components/SignUpForm/SignUpForm';
 
 export default function SignUp() {
   return (
@@ -75,38 +63,7 @@ export default function SignUp() {
               <Typography component='h1' fontSize='xl2' fontWeight='lg'>
                 Sign up for Smart assistant
               </Typography>
-              <form
-                onSubmit={(event: React.FormEvent<SignUpFormElement>) => {
-                  event.preventDefault();
-                  const formElements = event.currentTarget.elements;
-                  const data = {
-                    email: formElements.email.value,
-                    password: formElements.password.value,
-                    persistent: formElements.persistent.checked,
-                  };
-                  alert(JSON.stringify(data, null, 2));
-                }}
-              >
-                <FormControl required>
-                  <FormLabel>First Name *</FormLabel>
-                  <Input type='text' name='firstname' />
-                </FormControl>
-                <FormControl required>
-                  <FormLabel>Last Name *</FormLabel>
-                  <Input type='text' name='lastname' />
-                </FormControl>
-                <FormControl required>
-                  <FormLabel>Email Address *</FormLabel>
-                  <Input type='email' name='email' />
-                </FormControl>
-                <FormControl required>
-                  <FormLabel>Password *</FormLabel>
-                  <Input type='password' name='password' />
-                </FormControl>
-                <Button type='submit' fullWidth>
-                  Sign up
-                </Button>
-              </form>
+              <SignUpForm />
               <Link
                 component={RouterLink}
                 fontSize='sm'
