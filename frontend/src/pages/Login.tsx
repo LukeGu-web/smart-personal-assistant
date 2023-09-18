@@ -1,26 +1,14 @@
-import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
-import Checkbox from '@mui/joy/Checkbox';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
+import { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
-import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import { Link as RouterLink } from 'react-router-dom';
 
 import PageContainer from '../components/PageContainer/PageContainer';
 import GoogleIcon from '../assets/GoogleIcon';
 import SignBgImg from '../components/SignBgImg/SignBgImg';
-
-interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement;
-  password: HTMLInputElement;
-  persistent: HTMLInputElement;
-}
-interface SignInFormElement extends HTMLFormElement {
-  readonly elements: FormElements;
-}
+import LoginForm from '../components/LoginForm/LoginForm';
 
 export default function Login() {
   return (
@@ -82,51 +70,7 @@ export default function Login() {
                   Welcome back
                 </Typography>
               </div>
-              <form
-                onSubmit={(event: React.FormEvent<SignInFormElement>) => {
-                  event.preventDefault();
-                  const formElements = event.currentTarget.elements;
-                  const data = {
-                    email: formElements.email.value,
-                    password: formElements.password.value,
-                    persistent: formElements.persistent.checked,
-                  };
-                  alert(JSON.stringify(data, null, 2));
-                }}
-              >
-                <FormControl required>
-                  <FormLabel>Email</FormLabel>
-                  <Input type='email' name='email' />
-                </FormControl>
-                <FormControl required>
-                  <FormLabel>Password</FormLabel>
-                  <Input type='password' name='password' />
-                </FormControl>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Checkbox
-                    size='sm'
-                    label='Remember for 30 days'
-                    name='persistent'
-                  />
-                  <Link
-                    component={RouterLink}
-                    fontSize='sm'
-                    to='/forgot-password'
-                    fontWeight='lg'
-                  >
-                    Forgot your password?
-                  </Link>
-                </Box>
-                <Button type='submit' fullWidth>
-                  Sign in
-                </Button>
-              </form>
+              <LoginForm />
               <Button
                 variant='outlined'
                 color='neutral'
