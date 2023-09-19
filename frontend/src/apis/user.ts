@@ -24,17 +24,20 @@ export const signUp = ({ firstname, lastname, email, password }: SignUp) => {
     });
 };
 
-export const login = ({ email, password }: Login) => {
-  apiInstance
+export const login = async ({ email, password }: Login) => {
+  const response = await apiInstance
     .post('/user/login', { email, password })
     .then((response) => {
       console.log('login: ', response.data.message);
       toast.success('Successfully login!');
       setToken(response.data.token);
+      return response.data.success;
     })
     .catch((error) => {
       toast.error(error.data.message);
+      return false;
     });
+  return response;
 };
 
 export const getUserById = (id: string) => {

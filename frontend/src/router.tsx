@@ -8,13 +8,9 @@ import NotFound from './pages/NotFound';
 import ForgotPassword from './pages/ForgotPassword';
 import Profile from './pages/Profile';
 import ResetPassword from './pages/ResetPassword';
+import PrivateRoute from './components/PrivateRoute';
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-    errorElement: <NotFound />,
-  },
   {
     path: '/login',
     element: <Login />,
@@ -32,16 +28,27 @@ const router = createBrowserRouter([
     element: <ResetPassword />,
   },
   {
-    path: '/profile',
-    element: <Profile />,
-  },
-  {
-    path: '/calendar',
-    element: <Calendar />,
-  },
-  {
-    path: '/todo-list',
-    element: <TodoList />,
+    path: '/',
+    element: <PrivateRoute />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: '/profile',
+        element: <Profile />,
+      },
+      {
+        path: '/calendar',
+        element: <Calendar />,
+      },
+      {
+        path: '/todo-list',
+        element: <TodoList />,
+      },
+    ],
   },
 ]);
 
