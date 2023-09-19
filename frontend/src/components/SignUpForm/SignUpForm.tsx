@@ -3,6 +3,7 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import { signUp } from '../../apis/user';
+import { useNavigate } from 'react-router-dom';
 
 interface FormElements extends HTMLFormControlsCollection {
   firstname: HTMLInputElement;
@@ -16,17 +17,21 @@ interface SignUpFormElement extends HTMLFormElement {
 }
 
 export default function SignUpForm() {
+  const navigate = useNavigate();
   return (
     <form
-      onSubmit={(event: React.FormEvent<SignUpFormElement>) => {
+      onSubmit={async (event: React.FormEvent<SignUpFormElement>) => {
         event.preventDefault();
         const formElements = event.currentTarget.elements;
-        signUp({
+        const isSuccess = await signUp({
           firstname: formElements.firstname.value,
           lastname: formElements.lastname.value,
           email: formElements.email.value,
           password: formElements.password.value,
         });
+        if (isSuccess) {
+          setTimeout(() => navigate('/login'), 4000);
+        }
       }}
     >
       <FormControl required>

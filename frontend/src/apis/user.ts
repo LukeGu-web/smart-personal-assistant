@@ -12,16 +12,26 @@ interface SignUp extends Login {
   lastname: string;
 }
 
-export const signUp = ({ firstname, lastname, email, password }: SignUp) => {
-  apiInstance
+export const signUp = async ({
+  firstname,
+  lastname,
+  email,
+  password,
+}: SignUp) => {
+  const response = await apiInstance
     .post('/user/signup', { firstname, lastname, email, password })
     .then((response) => {
       console.log('signup: ', response.data.message);
-      toast.success('Successfully registered!');
+      toast.success(
+        'Successfully registered! Will redirect you to the login page.'
+      );
+      return true;
     })
     .catch((error) => {
       toast.error(error.data.message);
+      return false;
     });
+  return response;
 };
 
 export const login = async ({ email, password }: Login) => {
@@ -31,10 +41,11 @@ export const login = async ({ email, password }: Login) => {
       console.log('login: ', response.data.message);
       toast.success('Successfully login!');
       setToken(response.data.token);
-      return response.data.success;
+      return response?.data.success;
     })
     .catch((error) => {
-      toast.error(error.data.message);
+      console.log('login error: ', error.response);
+      toast.error('Something wrong with your account.');
       return false;
     });
   return response;

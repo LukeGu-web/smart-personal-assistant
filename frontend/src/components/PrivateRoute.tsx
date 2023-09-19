@@ -16,7 +16,6 @@ const PrivateRoute = () => {
   let isAuth = false;
   if (token) {
     decoded = jwt_decode(token) as decodedToken;
-    console.log('token: ', decoded);
     isAuth = !!token && decoded.exp * 1000 > Date.now();
   }
   if (!isAuth) {

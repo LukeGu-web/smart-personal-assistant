@@ -22,11 +22,11 @@ export default function LoginForm() {
       onSubmit={async (event: React.FormEvent<SignInFormElement>) => {
         event.preventDefault();
         const formElements = event.currentTarget.elements;
-        const result = await login({
+        const isSuccess = await login({
           email: formElements.email.value,
           password: formElements.password.value,
         });
-        if (result) navigate('/');
+        if (isSuccess) navigate('/');
       }}
     >
       <FormControl required>
