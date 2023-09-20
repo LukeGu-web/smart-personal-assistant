@@ -1,9 +1,14 @@
-export type UserProps = {
-  name: string;
-  username: string;
-  avatar: string;
-  online: boolean;
-};
+export interface BasicUserProps {
+  email: string;
+  firstname: string;
+  lastname: string;
+}
+
+export interface DecodedToken extends BasicUserProps {
+  id: string;
+  exp: number;
+  iat: number;
+}
 
 export type MessageProps = {
   id: string;
@@ -18,11 +23,11 @@ export type MessageProps = {
   };
 };
 
-export type ChatProps = {
-  id: string;
-  sender: UserProps;
-  messages: MessageProps[];
-};
+// export type ChatProps = {
+//   id: string;
+//   sender: UserProps;
+//   messages: MessageProps[];
+// };
 
 export type TaskProps = {
   id: string;

@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import { apiInstance } from './index.ts';
 import { setToken } from '../utils/token.ts';
+import { BasicUserProps } from '../types.tsx';
 
 interface Login {
   email: string;
@@ -10,6 +11,10 @@ interface Login {
 interface SignUp extends Login {
   firstname: string;
   lastname: string;
+}
+
+export interface Update extends BasicUserProps {
+  id: string;
 }
 
 export const signUp = async ({
@@ -51,14 +56,53 @@ export const login = async ({ email, password }: Login) => {
   return response;
 };
 
-export const getUserById = (id: string) => {
-  apiInstance
+export const getUserById = async (id: string) => {
+  const response = await apiInstance
     .get(`/user/getUserById/${id}`)
     .then((response) => {
-      console.log('getUserById: ', response.data.message);
+      console.log('getUserById: ', response.data);
       toast.success('Success!');
+      const { firstname, lastname, email, id } = response.data.user;
+      return { firstname, lastname, email, id };
     })
     .catch((error) => {
       toast.error(error.response.data.message);
+      return null;
     });
+  return response;
+};
+
+export const deleteUserById = async (id: string) => {
+  const response = await apiInstance
+    .delete(`/user/deleteUserById/${id}`)
+    .then((response) => {
+      console.log('deleteUserById: ', response.data.message);
+      toast.success('Successfully delete your account!');
+      return true;
+    })
+    .catch((error) => {
+      toast.error(error.response.data.message);
+      return false;
+    });
+  return response;
+};
+
+export const updateUserById = async ({
+  firstname,
+  lastname,
+  email,
+  id,
+}: Update) => {
+  const response = await apiInstance
+    .put(`/user/updateUserById/${id}`, { firstname, lastname, email })
+    .then((response) => {
+      console.log('updateUserById: ', response.data.message);
+      toast.success(response.data.message);
+      return response.data;
+    })
+    .catch((error) => {
+      toast.error(error.response.data.message);
+      return error.response.data;
+    });
+  return response;
 };

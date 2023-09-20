@@ -61,6 +61,7 @@ export const login = async (request, response) => {
           firstname: result.rows[0].firstname,
           lastname: result.rows[0].lastname,
           email: result.rows[0].email,
+          id: result.rows[0].id,
         },
         secret,
         { expiresIn: '1h' }
@@ -155,15 +156,26 @@ export const updateUserById = async (request, response) => {
   const client = await pool.connect();
   try {
     const result = await client.query(
-      'UPDATE users SET firstname = $1, lastname = $2 WHERE id = $3',
+      'UPDATE users SET firstname = $1, lastname = $2 WHERE id = $3 RETURNING *',
       [firstname, lastname, id]
     );
-    console.log('User profile updated', id);
+    console.log('User profile updated', result);
     if (result.rowCount > 0) {
+      var token = jwt.sign(
+        {
+          firstname: firstname,
+          lastname: lastname,
+          email: result.rows[0].email,
+          id: id,
+        },
+        secret,
+        { expiresIn: '1h' }
+      );
       response.status(200).json({
         success: true,
         message: 'User profile updated successfully',
-        updatedUser: result.rows[0],
+        user: result.rows[0],
+        token,
       });
     } else {
       response.status(400).json({
