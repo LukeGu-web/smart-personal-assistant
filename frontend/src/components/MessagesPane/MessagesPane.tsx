@@ -7,15 +7,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import AvatarWithStatus from '../AvatarWithStatus/AvatarWithStatus';
 import ChatBubble from '../ChatBubble/ChatBubble';
 import MessageInput from '../MessageInput/MessageInput';
-import { MessageProps } from '../../types';
+import { AIMessage, MessageProps } from '../../types';
 
 type MessagesPaneProps = {
   onClose: () => void;
-};
-
-type AIMessage = {
-  role: string;
-  content: string;
 };
 
 const api_site = import.meta.env.VITE_API_SITE;
