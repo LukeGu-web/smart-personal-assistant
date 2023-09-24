@@ -149,7 +149,7 @@ export const getUserByEmail = async (request, response) => {
   }
 };
 
-// edit profile
+// Edit profile
 export const updateUserById = async (request, response) => {
   const id = request.params.id;
   const { firstname, lastname } = request.body;
@@ -159,7 +159,7 @@ export const updateUserById = async (request, response) => {
       'UPDATE users SET firstname = $1, lastname = $2 WHERE id = $3 RETURNING *',
       [firstname, lastname, id]
     );
-    console.log('User profile updated', result);
+    console.log('User profile updated', result.rows[0]);
     if (result.rowCount > 0) {
       var token = jwt.sign(
         {
@@ -221,7 +221,7 @@ export const deleteUserById = async (request, response) => {
   }
 };
 
-// forgot password
+// Forgot password
 export const resetPasswordByemail = async (request, response) => {
   const { email } = request.body;
   const client = await pool.connect();
@@ -248,5 +248,38 @@ export const resetPasswordByemail = async (request, response) => {
     } else {
       response.status(400).json(result);
     }
+  }
+};
+
+// Reset passwrod
+export const updatePasswordByEmail = async (request, response) => {
+  const { email, password } = request.body;
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hashPassword = bcrypt.hashSync(password, salt);
+  const client = await pool.connect();
+  try {
+    const result = await client.query(
+      'UPDATE users SET password = $1 WHERE email = $2 RETURNING *',
+      [hashPassword, email]
+    );
+    console.log('User password updated', result.rows[0]);
+    if (result.rowCount > 0) {
+      response.status(200).json({
+        success: true,
+        message: 'User password updated successfully',
+      });
+    } else {
+      response.status(400).json({
+        success: false,
+        message: 'Not found the user',
+      });
+    }
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  } finally {
+    client.release();
   }
 };

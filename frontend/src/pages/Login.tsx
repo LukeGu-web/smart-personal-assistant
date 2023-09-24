@@ -1,12 +1,12 @@
 import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
+// import Button from '@mui/joy/Button';
 import { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
 import { Link as RouterLink } from 'react-router-dom';
 
 import PageContainer from '../components/PageContainer/PageContainer';
-import GoogleIcon from '../assets/GoogleIcon';
+// import GoogleIcon from '../assets/GoogleIcon';
 import SignBgImg from '../components/SignBgImg/SignBgImg';
 import LoginForm from '../components/LoginForm/LoginForm';
 
@@ -71,14 +71,14 @@ export default function Login() {
                 </Typography>
               </div>
               <LoginForm />
-              <Button
+              {/* <Button
                 variant='outlined'
                 color='neutral'
                 fullWidth
                 startDecorator={<GoogleIcon />}
               >
                 Sign in with Google
-              </Button>
+              </Button> */}
               <Link
                 component={RouterLink}
                 fontSize='sm'

@@ -106,3 +106,37 @@ export const updateUserById = async ({
     });
   return response;
 };
+
+export const resetPasswordByemail = async ({ email }: { email: string }) => {
+  const response = await apiInstance
+    .post(`/user/resetPasswordByemail`, { email })
+    .then((response) => {
+      console.log('resetPasswordByemail: ', response.data.message);
+      toast.success(
+        'We have sent you an email for reseting your password. Please check your email.'
+      );
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error(error.response.data.message);
+      return error.response.data;
+    });
+  return response;
+};
+
+export const updatePasswordByEmail = async ({ email, password }: Login) => {
+  const response = await apiInstance
+    .post(`/user/updatePasswordByEmail`, { email, password })
+    .then((response) => {
+      console.log('updatePasswordByEmail: ', response.data.message);
+      toast.success('Your password has been updated successfully');
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error(error.response.data.message);
+      return error.response.data;
+    });
+  return response;
+};

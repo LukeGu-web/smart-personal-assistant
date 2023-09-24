@@ -6,23 +6,40 @@ import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
-import { Link as RouterLink } from 'react-router-dom';
+import {
+  Link as RouterLink,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 import PageContainer from '../components/PageContainer/PageContainer';
 import SignBgImg from '../components/SignBgImg/SignBgImg';
+import { toast } from 'react-toastify';
+import { updatePasswordByEmail } from '../apis/user';
 
 interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement;
-  password: HTMLInputElement;
-  persistent: HTMLInputElement;
+  newPassword: HTMLInputElement;
+  repeatPassword: HTMLInputElement;
 }
-interface SignUpFormElement extends HTMLFormElement {
+interface PasswordFormElement extends HTMLFormElement {
   readonly elements: FormElements;
 }
 
+type Decode = {
+  email: string;
+};
+
 export default function ResetPassword() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
+  const decode = token ? (jwt_decode(token) as Decode) : null;
+  const email: string = decode ? decode.email : '';
   const [newPass, setNewPass] = useState('');
   const [repeatPass, setRepeatPass] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <PageContainer>
       <>
@@ -78,16 +95,36 @@ export default function ResetPassword() {
                 Reset password
               </Typography>
               <form
-                onSubmit={(event: React.FormEvent<SignUpFormElement>) => {
+                onSubmit={async (
+                  event: React.FormEvent<PasswordFormElement>
+                ) => {
                   event.preventDefault();
-                  const formElements = event.currentTarget.elements;
-                  const data = {
-                    email: formElements.email.value,
-                  };
-                  alert(JSON.stringify(data, null, 2));
+                  if (email === '') {
+                    toast.error(
+                      'Your token is invaild. Please check your reset passwrod email.'
+                    );
+                  } else {
+                    const formElements = event.currentTarget.elements;
+                    if (!isLoading) setIsLoading(true);
+                    if (
+                      formElements.newPassword.value ===
+                      formElements.repeatPassword.value
+                    ) {
+                      const isSuccess = await updatePasswordByEmail({
+                        email: email,
+                        password: formElements.newPassword.value,
+                      });
+                      if (isSuccess) {
+                        setIsLoading(false);
+                        navigate('/login');
+                      }
+                    } else {
+                      toast.error('Passwords do NOT match');
+                      setIsLoading(false);
+                    }
+                  }
                 }}
               >
-                <Typography component='h2'>Reset your password</Typography>
                 <FormControl required>
                   <FormLabel>New password *</FormLabel>
                   <Input
@@ -106,7 +143,7 @@ export default function ResetPassword() {
                     onChange={(event) => setRepeatPass(event.target.value)}
                   />
                 </FormControl>
-                <Button type='submit' fullWidth>
+                <Button type='submit' fullWidth loading={isLoading}>
                   Submit
                 </Button>
               </form>

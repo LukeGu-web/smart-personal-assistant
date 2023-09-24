@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, FormEvent } from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
@@ -6,10 +6,11 @@ import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import PageContainer from '../components/PageContainer/PageContainer';
 import SignBgImg from '../components/SignBgImg/SignBgImg';
+import { resetPasswordByemail } from '../apis/user';
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -21,6 +22,8 @@ interface SignUpFormElement extends HTMLFormElement {
 }
 
 export default function ForgotPassword() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <PageContainer>
       <>
@@ -76,13 +79,17 @@ export default function ForgotPassword() {
                 Forgot password
               </Typography>
               <form
-                onSubmit={(event: React.FormEvent<SignUpFormElement>) => {
+                onSubmit={async (event: FormEvent<SignUpFormElement>) => {
                   event.preventDefault();
                   const formElements = event.currentTarget.elements;
-                  const data = {
+                  if (!isLoading) setIsLoading(true);
+                  const isSuccess = await resetPasswordByemail({
                     email: formElements.email.value,
-                  };
-                  alert(JSON.stringify(data, null, 2));
+                  });
+                  if (isSuccess) {
+                    navigate('/login');
+                    setIsLoading(false);
+                  }
                 }}
               >
                 <Typography component='h2'>
@@ -93,7 +100,7 @@ export default function ForgotPassword() {
                   <FormLabel>Email *</FormLabel>
                   <Input type='email' name='email' />
                 </FormControl>
-                <Button type='submit' fullWidth>
+                <Button type='submit' fullWidth loading={isLoading}>
                   Reset password
                 </Button>
               </form>
@@ -103,7 +110,7 @@ export default function ForgotPassword() {
                 to='/login'
                 fontWeight='lg'
               >
-                Remember your password?
+                Remember your password and login
               </Link>
             </Box>
           </Box>

@@ -70,16 +70,6 @@ export default function Profile() {
       <Typography level='h1' fontSize='xl2' sx={{ mb: 1 }}>
         My profile
       </Typography>
-
-      <Box
-        sx={{
-          '--_shadow-height': '16px',
-          height: 0,
-          position: 'sticky',
-          top: 'calc(48px - var(--main-paddingTop, 0px) + var(--Header-height, 0px) - (var(--_shadow-height) / 2))',
-          zIndex: 1,
-        }}
-      />
       <Box
         component='form'
         onSubmit={(event: React.FormEvent<ProfileFormElement>) =>
@@ -199,10 +189,19 @@ export default function Profile() {
           </Button>
         )}
         <Divider role='presentation' />
+        <Button
+          size='lg'
+          color='danger'
+          sx={{
+            gridColumn: '1/-1',
+            justifySelf: 'flex-end',
+            display: 'flex',
+          }}
+          onClick={handleDeleteUser}
+        >
+          Delete your account
+        </Button>
       </Box>
-      <Button size='lg' color='danger' fullWidth onClick={handleDeleteUser}>
-        Delete your account
-      </Button>
     </Box>
   );
 }
