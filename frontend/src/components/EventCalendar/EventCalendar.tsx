@@ -3,28 +3,34 @@ import {
   Sheet,
   Grid,
   Typography,
-  Modal,
-  ModalDialog,
-  Button,
-  Stack,
-  FormControl,
-  Input,
-  FormLabel,
-  ModalClose,
-  Textarea,
+  // Modal,
+  // ModalDialog,
+  // Button,
+  // Stack,
+  // FormControl,
+  // Input,
+  // FormLabel,
+  // ModalClose,
+  // Textarea,
 } from '@mui/joy';
 import CalendarControl from '../CalendarControl/CalendarControl';
 import Day from '../Day/Day';
 import { weekDays } from '../../data';
 import { monthString, getMonthDaysGrid } from '../../utils/calendar';
 
-export default function EventCalendar() {
+type EventCalendarProps = {
+  selectedDate: Date | null;
+  onSetDate: (date: Date) => void;
+};
+
+export default function EventCalendar({
+  selectedDate,
+  onSetDate,
+}: EventCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(monthString(new Date()));
   const [daysGrid, setDaysGrid] = useState<Array<Date | null>>([]);
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  //   const [title, setTitle] = useState('');
-  //   const [content, setContent] = useState('');
+  // const [openModal, setOpenModal] = useState<boolean>(false);
 
   const makeMonthDaysGrid = (date: Date) => {
     const newDaysGrid = getMonthDaysGrid(date);
@@ -43,10 +49,16 @@ export default function EventCalendar() {
     setCurrentMonth(monthString(tmpDate));
   };
 
-  const handleCreateEvent = (date: Date) => {
+  const handleSelectDate = (date: Date) => {
     console.log(date);
-    setOpenModal(true);
+    onSetDate(date);
+    // setOpenModal(true);
   };
+
+  // const handleCreateEvent = () => {
+  //   // console.log(date);
+  //   setOpenModal(true);
+  // };
 
   return (
     <Sheet>
@@ -81,42 +93,14 @@ export default function EventCalendar() {
           </Grid>
         ))}
         {daysGrid.map((day, index) => (
-          <Day key={index} date={day} onCreateEvent={handleCreateEvent} />
+          <Day
+            key={index}
+            date={day}
+            selectedDate={selectedDate}
+            onSelectDate={handleSelectDate}
+          />
         ))}
       </Grid>
-      <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <ModalDialog
-          aria-labelledby='basic-modal-dialog-title'
-          aria-describedby='basic-modal-dialog-description'
-          sx={{ maxWidth: 600, width: '100%' }}
-        >
-          <ModalClose />
-          <Typography id='basic-modal-dialog-title' level='h2'>
-            Create new event
-          </Typography>
-          <Typography id='basic-modal-dialog-description'>
-            Fill in the information of the event.
-          </Typography>
-          <form
-            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              setOpenModal(false);
-            }}
-          >
-            <Stack spacing={2}>
-              <FormControl>
-                <FormLabel>Title *</FormLabel>
-                <Input autoFocus required />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Description</FormLabel>
-                <Textarea minRows={4} placeholder='Type anything…' />
-              </FormControl>
-              <Button type='submit'>Create</Button>
-            </Stack>
-          </form>
-        </ModalDialog>
-      </Modal>
     </Sheet>
   );
 }

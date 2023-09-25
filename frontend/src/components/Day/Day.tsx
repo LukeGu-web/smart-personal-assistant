@@ -17,11 +17,13 @@ export type Event = {
 
 type DayProps = {
   date: Date | null;
-  onCreateEvent: (date: Date) => void;
+  selectedDate: Date | null;
+  onSelectDate: (date: Date) => void;
 };
 
-export default function Day({ date, onCreateEvent }: DayProps) {
+export default function Day({ date, selectedDate, onSelectDate }: DayProps) {
   const isToday = dayjs(date).isToday();
+  const isSelected = dayjs(date).isSame(selectedDate, 'day');
   return (
     <Grid
       xs={2}
@@ -32,12 +34,13 @@ export default function Day({ date, onCreateEvent }: DayProps) {
     >
       {date && (
         <Button
-          variant={isToday ? 'solid' : 'plain'}
+          variant={isToday || isSelected ? 'solid' : 'plain'}
           sx={{
             width: '100%',
             borderRadius: 0,
           }}
-          onClick={() => onCreateEvent(date)}
+          color={isSelected ? 'success' : 'primary'}
+          onClick={() => onSelectDate(date)}
         >
           <Typography
             level='body-lg'
