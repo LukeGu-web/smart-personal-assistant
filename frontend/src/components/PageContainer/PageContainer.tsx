@@ -6,13 +6,18 @@ import Box from '@mui/joy/Box';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import { mergedTheme } from './theme';
 type PageContainerProps = {
   children: ReactElement;
 };
 
 export default function PageContainer({ children }: PageContainerProps) {
   return (
-    <CssVarsProvider defaultMode='dark' disableTransitionOnChange>
+    <CssVarsProvider
+      defaultMode='dark'
+      disableTransitionOnChange
+      theme={mergedTheme}
+    >
       <CssBaseline />
       <GlobalStyles
         styles={{

@@ -11,6 +11,10 @@ import {
   Textarea,
 } from '@mui/joy';
 
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 type EventModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -44,7 +48,9 @@ export default function EventModal({ isOpen, onClose }: EventModalProps) {
             </FormControl>
             <FormControl>
               <FormLabel>Date *</FormLabel>
-              <Input autoFocus required />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker />
+              </LocalizationProvider>
             </FormControl>
             <FormControl>
               <FormLabel>Description</FormLabel>
