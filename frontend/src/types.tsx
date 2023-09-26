@@ -30,7 +30,7 @@ export type MessageProps = {
 
 export type TaskProps = {
   id: string;
-  userId: string;
+  // userId: string;
   label: string;
   isCompleted: boolean;
   completedDate: Date | null;

@@ -122,6 +122,9 @@ const muiTheme = extendMuiTheme({
           primary: colors.grey[800],
           secondary: colors.grey[600],
         },
+        background: {
+          default: '#fff',
+        },
       },
     },
     dark: {
@@ -147,6 +150,9 @@ const muiTheme = extendMuiTheme({
         text: {
           primary: colors.grey[100],
           secondary: colors.grey[300],
+        },
+        background: {
+          default: '#000',
         },
       },
     },

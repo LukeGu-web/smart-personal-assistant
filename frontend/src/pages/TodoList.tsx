@@ -53,13 +53,14 @@ export default function TodoList() {
         sx={{
           width:
             'clamp(100vw - var(--Cover-width), (var(--Collapsed-breakpoint) - 100vw) * 999, 100vw)',
-          height: 'calc(100vh - 9.25rem)',
+          minHeight: 'calc(100vh - 9.25rem)',
           display: 'flex',
           flexDirection: 'column',
           gap: 2,
           margin: '0 auto',
           padding: 1,
           backdropFilter: 'blur(4px)',
+          overflow: 'auto',
         }}
       >
         <Typography component='h1' fontSize='xl2' fontWeight='lg'>

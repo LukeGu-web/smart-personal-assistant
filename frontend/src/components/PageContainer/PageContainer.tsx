@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { CssVarsProvider } from '@mui/joy/styles';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import CssBaseline from '@mui/joy/CssBaseline';
-import Box from '@mui/joy/Box';
+import Stack from '@mui/joy/Stack';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -29,17 +29,15 @@ export default function PageContainer({ children }: PageContainerProps) {
           },
         }}
       />
-      <Box
+      <Stack
         sx={(theme) => ({
-          [theme.getColorSchemeSelector('dark')]: {
-            backgroundColor: 'rgba(19 19 24 / 0.4)',
-          },
+          backgroundColor: theme.palette.background.default,
         })}
       >
         <Header />
         {children}
         <Footer />
-      </Box>
+      </Stack>
     </CssVarsProvider>
   );
 }

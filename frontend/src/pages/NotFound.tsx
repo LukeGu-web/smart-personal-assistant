@@ -11,7 +11,7 @@ export default function NotFound() {
     <PageContainer>
       <Box
         sx={(theme) => ({
-          height: 'calc(100vh - 9.25rem)',
+          minHeight: 'calc(100vh - 9.25rem)',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',

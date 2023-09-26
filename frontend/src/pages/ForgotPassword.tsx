@@ -31,7 +31,7 @@ export default function ForgotPassword() {
           sx={{
             width:
               'clamp(100vw - var(--Cover-width), (var(--Collapsed-breakpoint) - 100vw) * 999, 100vw)',
-            height: 'calc(100vh - 9.25rem)',
+            minHeight: 'calc(100vh - 9.25rem)',
             transition: 'width var(--Transition-duration)',
             transitionDelay: 'calc(var(--Transition-duration) + 0.1s)',
             position: 'relative',

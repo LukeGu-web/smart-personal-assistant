@@ -67,7 +67,7 @@ export default function Profile() {
         mx: 'auto',
       }}
     >
-      <Typography level='h1' fontSize='xl2' sx={{ mb: 1 }}>
+      <Typography level='h1' fontSize='xl2' sx={{ mb: 4 }}>
         My profile
       </Typography>
       <Box
@@ -76,8 +76,6 @@ export default function Profile() {
           handleSave(event)
         }
         sx={{
-          pt: 3,
-          pb: 10,
           display: 'grid',
           gridTemplateColumns: {
             xs: '100%',

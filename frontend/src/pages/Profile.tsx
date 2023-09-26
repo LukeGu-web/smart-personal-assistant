@@ -10,12 +10,9 @@ export default function Profile() {
         sx={{
           width:
             'clamp(100vw - var(--Cover-width), (var(--Collapsed-breakpoint) - 100vw) * 999, 100vw)',
-          height: 'calc(100vh - 9.25rem)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
+          minHeight: 'calc(100vh - 9.25rem)',
           margin: '0 auto',
-          backdropFilter: 'blur(4px)',
+          overflow: 'auto',
         }}
       >
         <MyProfile />
