@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import {
   Typography,
   Modal,
@@ -6,21 +7,25 @@ import {
   Stack,
   FormControl,
   Input,
-  FormLabel,
   ModalClose,
   Textarea,
 } from '@mui/joy';
 
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 type EventModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  selectedDate: Date;
 };
 
-export default function EventModal({ isOpen, onClose }: EventModalProps) {
+export default function EventModal({
+  isOpen,
+  onClose,
+  selectedDate,
+}: EventModalProps) {
   return (
     <Modal open={isOpen} onClose={onClose}>
       <ModalDialog
@@ -43,18 +48,26 @@ export default function EventModal({ isOpen, onClose }: EventModalProps) {
         >
           <Stack spacing={2}>
             <FormControl>
-              <FormLabel>Title *</FormLabel>
-              <Input autoFocus required />
+              <Input placeholder='Add a title' autoFocus required />
             </FormControl>
             <FormControl>
-              <FormLabel>Date *</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
+                <Stack spacing={1}>
+                  <DateTimePicker
+                    label='Start from'
+                    defaultValue={dayjs(selectedDate)}
+                    views={['month', 'day', 'hours', 'minutes']}
+                  />
+                  <DateTimePicker
+                    label='End at'
+                    defaultValue={dayjs(selectedDate).add(30, 'minute')}
+                    views={['month', 'day', 'hours', 'minutes']}
+                  />
+                </Stack>
               </LocalizationProvider>
             </FormControl>
             <FormControl>
-              <FormLabel>Description</FormLabel>
-              <Textarea minRows={4} placeholder='Type anything…' />
+              <Textarea minRows={4} placeholder='Add a description' />
             </FormControl>
             <Button type='submit'>Create</Button>
           </Stack>

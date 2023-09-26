@@ -38,13 +38,17 @@ export default function Calendar() {
           <Typography component='h1' fontSize='xl2' fontWeight='lg'>
             Event Calendar
           </Typography>
-          <Button onClick={handleCreateEvent}>Create new event</Button>
+          <Button onClick={handleCreateEvent}>New event</Button>
         </Box>
         <EventCalendar
           selectedDate={selectedDate}
           onSetDate={setSelectedDate}
         />
-        <EventModal isOpen={openModal} onClose={handleCloseModal} />
+        <EventModal
+          isOpen={openModal}
+          onClose={handleCloseModal}
+          selectedDate={selectedDate || new Date()}
+        />
       </Box>
     </PageContainer>
   );

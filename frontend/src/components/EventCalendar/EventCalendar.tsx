@@ -1,18 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  Sheet,
-  Grid,
-  Typography,
-  // Modal,
-  // ModalDialog,
-  // Button,
-  // Stack,
-  // FormControl,
-  // Input,
-  // FormLabel,
-  // ModalClose,
-  // Textarea,
-} from '@mui/joy';
+import { Sheet, Grid, Typography } from '@mui/joy';
 import CalendarControl from '../CalendarControl/CalendarControl';
 import Day from '../Day/Day';
 import { weekDays } from '../../data';
@@ -30,7 +17,6 @@ export default function EventCalendar({
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(monthString(new Date()));
   const [daysGrid, setDaysGrid] = useState<Array<Date | null>>([]);
-  // const [openModal, setOpenModal] = useState<boolean>(false);
 
   const makeMonthDaysGrid = (date: Date) => {
     const newDaysGrid = getMonthDaysGrid(date);
@@ -39,7 +25,7 @@ export default function EventCalendar({
 
   useEffect(() => {
     makeMonthDaysGrid(currentDate);
-  }, []);
+  });
 
   const handleChangeMonth = (action: -1 | 1) => {
     const tmpDate = currentDate;
@@ -52,7 +38,6 @@ export default function EventCalendar({
   const handleSelectDate = (date: Date) => {
     console.log(date);
     onSetDate(date);
-    // setOpenModal(true);
   };
 
   // const handleCreateEvent = () => {

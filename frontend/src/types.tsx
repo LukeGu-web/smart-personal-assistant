@@ -28,16 +28,17 @@ export type MessageProps = {
   };
 };
 
-// export type ChatProps = {
-//   id: string;
-//   sender: UserProps;
-//   messages: MessageProps[];
-// };
-
 export type TaskProps = {
   id: string;
   userId: string;
   label: string;
   isCompleted: boolean;
   completedDate: Date | null;
+};
+
+export type Event = {
+  title: string;
+  start: Date;
+  end: Date;
+  description?: boolean;
 };
