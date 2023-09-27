@@ -44,7 +44,7 @@ export const login = async ({ email, password }: Login) => {
     .post('/user/login', { email, password })
     .then((response) => {
       console.log('login: ', response.data.message);
-      toast.success('Successfully login!');
+      // toast.success('Successfully login!');
       setToken(response.data.token);
       return response?.data.success;
     })

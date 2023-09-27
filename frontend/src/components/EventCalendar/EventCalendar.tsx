@@ -4,8 +4,8 @@ import { Sheet, Grid, Typography } from '@mui/joy';
 import CalendarControl from '../CalendarControl/CalendarControl';
 import Day from '../Day/Day';
 import { weekDays } from '../../data';
-import { getMonthDaysGrid } from '../../utils/calendar';
-import { EventType } from '../../types';
+import { getMonthDaysGrid, getEventsByDay } from '../../utils/calendar';
+import { EventType, EventsByDay } from '../../types';
 
 type EventCalendarProps = {
   events: EventType[];
@@ -13,10 +13,6 @@ type EventCalendarProps = {
   selectedDate: Date | null;
   onSetDate: (date: Date) => void;
   onSetEvents: (events: EventType[] | null) => void;
-};
-
-type EventsByDay = {
-  [key: number]: EventType[];
 };
 
 export default function EventCalendar({
@@ -36,21 +32,7 @@ export default function EventCalendar({
   };
 
   const sortEventsByDay = (events: EventType[]) => {
-    let eventsByDay: EventsByDay = {};
-    events.map((item) => {
-      const day = dayjs(item.start).get('date');
-      if (!eventsByDay[day]) {
-        eventsByDay = {
-          ...eventsByDay,
-          [day]: [item],
-        };
-      } else {
-        eventsByDay = {
-          ...eventsByDay,
-          [day]: [...eventsByDay[day], item],
-        };
-      }
-    });
+    const eventsByDay = getEventsByDay(events);
     setEventsByDay(eventsByDay);
   };
 

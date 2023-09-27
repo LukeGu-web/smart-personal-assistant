@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
@@ -17,16 +18,21 @@ interface SignInFormElement extends HTMLFormElement {
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <form
       onSubmit={async (event: React.FormEvent<SignInFormElement>) => {
         event.preventDefault();
         const formElements = event.currentTarget.elements;
+        if (!isLoading) setIsLoading(true);
         const isSuccess = await login({
           email: formElements.email.value,
           password: formElements.password.value,
         });
-        if (isSuccess) navigate('/');
+        if (isSuccess) {
+          navigate('/');
+          setIsLoading(false);
+        }
       }}
     >
       <FormControl required>
@@ -57,7 +63,7 @@ export default function LoginForm() {
           Forgot your password?
         </Link>
       </Box>
-      <Button type='submit' fullWidth>
+      <Button type='submit' fullWidth loading={isLoading}>
         Sign in
       </Button>
     </form>

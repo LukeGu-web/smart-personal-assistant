@@ -76,6 +76,7 @@ export default function MessagesPane({ onClose }: MessagesPaneProps) {
         width: { xs: '100%', lg: '40rem' },
         display: 'flex',
         flexDirection: 'column',
+        border: '1px solid grey',
         borderRadius: '1rem',
       }}
     >

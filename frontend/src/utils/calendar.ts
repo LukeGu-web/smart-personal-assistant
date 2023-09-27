@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { months } from '../data';
+import { EventType, EventsByDay } from '../types';
 
 export const monthString = (date: Date) =>
   `${months[date.getMonth()]} ${date.getFullYear()}`;
@@ -23,4 +24,23 @@ export const getMonthDaysGrid = (date: Date) => {
     }
   }
   return newDaysGrid;
+};
+
+export const getEventsByDay = (events: EventType[]) => {
+  let eventsByDay: EventsByDay = {};
+  events.map((item) => {
+    const day = dayjs(item.start).get('date');
+    if (!eventsByDay[day]) {
+      eventsByDay = {
+        ...eventsByDay,
+        [day]: [item],
+      };
+    } else {
+      eventsByDay = {
+        ...eventsByDay,
+        [day]: [...eventsByDay[day], item],
+      };
+    }
+  });
+  return eventsByDay;
 };

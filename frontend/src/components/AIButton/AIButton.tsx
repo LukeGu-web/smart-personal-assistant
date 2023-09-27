@@ -18,7 +18,7 @@ export default function AIButton({ onClick }: AIButtonProps) {
           py: 1.5,
           borderRadius: '50%',
           position: 'fixed',
-          bottom: '0',
+          bottom: '2rem',
           right: '0',
         }}
       >

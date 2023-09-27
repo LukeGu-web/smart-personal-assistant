@@ -42,3 +42,7 @@ export type EventType = {
   end: Date | string;
   description?: string;
 };
+
+export type EventsByDay = {
+  [key: number]: EventType[];
+};
