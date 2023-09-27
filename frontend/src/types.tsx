@@ -30,15 +30,15 @@ export type MessageProps = {
 
 export type TaskProps = {
   id: string;
-  // userId: string;
+  userId: string;
   label: string;
   isCompleted: boolean;
   completedDate: Date | null;
 };
 
-export type Event = {
+export type EventType = {
   title: string;
-  start: Date;
-  end: Date;
-  description?: boolean;
+  start: Date | string;
+  end: Date | string;
+  description?: string;
 };

@@ -1,49 +1,72 @@
 import { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import { Sheet, Grid, Typography } from '@mui/joy';
 import CalendarControl from '../CalendarControl/CalendarControl';
 import Day from '../Day/Day';
 import { weekDays } from '../../data';
 import { monthString, getMonthDaysGrid } from '../../utils/calendar';
+import { EventType } from '../../types';
 
 type EventCalendarProps = {
+  events: EventType[];
+  currentDate: Date;
   selectedDate: Date | null;
-  onSetDate: (date: Date) => void;
+  onSetDate: (date: Date, events: EventType[] | undefined) => void;
+};
+
+type EventsByDay = {
+  [key: number]: EventType[];
 };
 
 export default function EventCalendar({
+  events,
+  currentDate,
   selectedDate,
   onSetDate,
 }: EventCalendarProps) {
-  const [currentDate, setCurrentDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(monthString(new Date()));
   const [daysGrid, setDaysGrid] = useState<Array<Date | null>>([]);
+  const [eventsByDay, setEventsByDay] = useState<EventsByDay>({});
 
   const makeMonthDaysGrid = (date: Date) => {
     const newDaysGrid = getMonthDaysGrid(date);
     setDaysGrid(newDaysGrid);
   };
 
+  const sortEventsByDay = (events: EventType[]) => {
+    let eventsByDay: EventsByDay = {};
+    events.map((item) => {
+      const day = dayjs(item.start).get('date');
+      if (!eventsByDay[day]) {
+        eventsByDay = {
+          ...eventsByDay,
+          [day]: [item],
+        };
+      } else {
+        eventsByDay = {
+          ...eventsByDay,
+          [day]: [...eventsByDay[day], item],
+        };
+      }
+    });
+    setEventsByDay(eventsByDay);
+  };
+
   useEffect(() => {
     makeMonthDaysGrid(currentDate);
-  });
+    sortEventsByDay(events);
+  }, [currentDate, events]);
 
   const handleChangeMonth = (action: -1 | 1) => {
     const tmpDate = currentDate;
     tmpDate.setMonth(tmpDate.getMonth() + action);
     makeMonthDaysGrid(tmpDate);
-    setCurrentDate(tmpDate);
     setCurrentMonth(monthString(tmpDate));
   };
 
-  const handleSelectDate = (date: Date) => {
-    console.log(date);
-    onSetDate(date);
+  const handleSelectDate = (date: Date, events: EventType[] | undefined) => {
+    onSetDate(date, events);
   };
-
-  // const handleCreateEvent = () => {
-  //   // console.log(date);
-  //   setOpenModal(true);
-  // };
 
   return (
     <Sheet>
@@ -81,6 +104,7 @@ export default function EventCalendar({
           <Day
             key={index}
             date={day}
+            events={eventsByDay[dayjs(day).get('date')]}
             selectedDate={selectedDate}
             onSelectDate={handleSelectDate}
           />

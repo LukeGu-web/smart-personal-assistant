@@ -4,16 +4,28 @@ import { Box, Button, Typography } from '@mui/joy';
 import PageContainer from '../components/PageContainer/PageContainer';
 import EventCalendar from '../components/EventCalendar/EventCalendar';
 import EventModal from '../components/EventModal/EventModal';
+import { mockEvents } from '../mockData';
+import EventList from '../components/EventList/EventList';
+import { EventType } from '../types';
 
 export default function Calendar() {
+  const today = new Date();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedEvents, setSelectedEvents] = useState<
+    EventType[] | undefined | null
+  >(null);
   const handleCreateEvent = () => {
     setOpenModal(true);
   };
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+  const handleSelectDate = (date: Date, events: EventType[] | undefined) => {
+    setSelectedDate(date);
+    setSelectedEvents(events);
+  };
+
   return (
     <PageContainer>
       <Box
@@ -41,14 +53,17 @@ export default function Calendar() {
           <Button onClick={handleCreateEvent}>New event</Button>
         </Box>
         <EventCalendar
+          events={mockEvents}
+          currentDate={today}
           selectedDate={selectedDate}
-          onSetDate={setSelectedDate}
+          onSetDate={handleSelectDate}
         />
         <EventModal
           isOpen={openModal}
           onClose={handleCloseModal}
-          selectedDate={selectedDate || new Date()}
+          selectedDate={selectedDate || today}
         />
+        <EventList events={selectedEvents} />
       </Box>
     </PageContainer>
   );
