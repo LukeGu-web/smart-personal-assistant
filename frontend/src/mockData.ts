@@ -25,8 +25,8 @@ export const mockEvents: EventType[] = [
   {
     title: 'event 1',
     start:
-      'Fri Sep 08 2023 00:00:00 GMT+1000 (Australian Eastern Standard Time)',
-    end: 'Fri Sep 08 2023 00:00:01 GMT+1000 (Australian Eastern Standard Time)',
+      'Fri Sep 08 2023 08:00:00 GMT+1000 (Australian Eastern Standard Time)',
+    end: 'Fri Sep 08 2023 08:08:01 GMT+1000 (Australian Eastern Standard Time)',
     description: 'Here is event 1',
   },
   {

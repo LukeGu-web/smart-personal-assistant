@@ -1,9 +1,11 @@
+import dayjs from 'dayjs';
 import {
   AccordionGroup,
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
+  Chip,
   Typography,
 } from '@mui/joy';
 import { EventType } from '../../types';
@@ -18,9 +20,19 @@ export default function EventList({ events }: EventListProps) {
         <AccordionGroup>
           {events &&
             (events as EventType[]).map((event) => (
-              <Accordion>
-                <AccordionSummary>{event.title}</AccordionSummary>
-                <AccordionDetails>{event.description}</AccordionDetails>
+              <Accordion key={event.title}>
+                <AccordionSummary>
+                  {event.title}
+                  <Chip>{dayjs(event.start).format('LT')}</Chip>
+                </AccordionSummary>
+                <AccordionDetails sx={{ paddingY: 0.5 }}>
+                  <Box sx={{ display: 'flex', paddingBottom: 1 }}>
+                    <Chip>{dayjs(event.start).format('LT')}</Chip>
+                    <Typography sx={{ paddingX: 1 }}>-</Typography>
+                    <Chip>{dayjs(event.end).format('LT')}</Chip>
+                  </Box>
+                  {event.description}
+                </AccordionDetails>
               </Accordion>
             ))}
         </AccordionGroup>
