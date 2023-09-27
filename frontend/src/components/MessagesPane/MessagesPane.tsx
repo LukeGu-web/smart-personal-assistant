@@ -71,6 +71,8 @@ export default function MessagesPane({ onClose }: MessagesPaneProps) {
     <Sheet
       sx={{
         height: { xs: '100%', lg: '40rem' },
+        minHeight: '80vh',
+        maxHeight: '600px',
         width: { xs: '100%', lg: '40rem' },
         display: 'flex',
         flexDirection: 'column',

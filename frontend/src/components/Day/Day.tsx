@@ -1,12 +1,10 @@
 import { ReactElement } from 'react';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
-
-dayjs.extend(isToday);
 import { Badge, Button, Box, Grid, Typography } from '@mui/joy';
-
 import Event from '../Event/Event';
 import { EventType } from '../../types';
+dayjs.extend(isToday);
 
 export type Event = {
   id?: string;
@@ -20,7 +18,8 @@ type DayProps = {
   date: Date | null;
   events: EventType[] | undefined;
   selectedDate: Date | null;
-  onSelectDate: (date: Date, events: EventType[] | undefined) => void;
+  onSelectDate: (date: Date) => void;
+  onSelectEvents: (events: EventType[] | null) => void;
 };
 
 export default function Day({
@@ -28,12 +27,19 @@ export default function Day({
   events,
   selectedDate,
   onSelectDate,
+  onSelectEvents,
 }: DayProps) {
   const isToday = dayjs(date).isToday();
   const isSelected = dayjs(date).isSame(selectedDate, 'day');
+  const isVisible = events && dayjs(date).isSame(events[0]?.start, 'month');
   const handleSelect = () => {
     if (date) {
-      onSelectDate(date, events);
+      onSelectDate(date);
+    }
+    if (isVisible) {
+      onSelectEvents(events);
+    } else {
+      onSelectEvents(null);
     }
   };
   return (
@@ -58,7 +64,7 @@ export default function Day({
             <Badge
               badgeContent={events?.length}
               color='danger'
-              invisible={!events}
+              invisible={!isVisible}
             >
               <Typography
                 level='body-lg'

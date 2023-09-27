@@ -12,18 +12,15 @@ export default function Calendar() {
   const today = new Date();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedEvents, setSelectedEvents] = useState<
-    EventType[] | undefined | null
-  >(null);
+  const [selectedEvents, setSelectedEvents] = useState<EventType[] | null>(
+    null
+  );
+
   const handleCreateEvent = () => {
     setOpenModal(true);
   };
   const handleCloseModal = () => {
     setOpenModal(false);
-  };
-  const handleSelectDate = (date: Date, events: EventType[] | undefined) => {
-    setSelectedDate(date);
-    setSelectedEvents(events);
   };
 
   return (
@@ -56,7 +53,8 @@ export default function Calendar() {
           events={mockEvents}
           currentDate={today}
           selectedDate={selectedDate}
-          onSetDate={handleSelectDate}
+          onSetDate={setSelectedDate}
+          onSetEvents={setSelectedEvents}
         />
         <EventModal
           isOpen={openModal}

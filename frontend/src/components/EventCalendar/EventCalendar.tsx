@@ -4,14 +4,15 @@ import { Sheet, Grid, Typography } from '@mui/joy';
 import CalendarControl from '../CalendarControl/CalendarControl';
 import Day from '../Day/Day';
 import { weekDays } from '../../data';
-import { monthString, getMonthDaysGrid } from '../../utils/calendar';
+import { getMonthDaysGrid } from '../../utils/calendar';
 import { EventType } from '../../types';
 
 type EventCalendarProps = {
   events: EventType[];
   currentDate: Date;
   selectedDate: Date | null;
-  onSetDate: (date: Date, events: EventType[] | undefined) => void;
+  onSetDate: (date: Date) => void;
+  onSetEvents: (events: EventType[] | null) => void;
 };
 
 type EventsByDay = {
@@ -23,8 +24,9 @@ export default function EventCalendar({
   currentDate,
   selectedDate,
   onSetDate,
+  onSetEvents,
 }: EventCalendarProps) {
-  const [currentMonth, setCurrentMonth] = useState(monthString(new Date()));
+  const [currentMonth, setCurrentMonth] = useState(dayjs(currentDate).month());
   const [daysGrid, setDaysGrid] = useState<Array<Date | null>>([]);
   const [eventsByDay, setEventsByDay] = useState<EventsByDay>({});
 
@@ -55,23 +57,26 @@ export default function EventCalendar({
   useEffect(() => {
     makeMonthDaysGrid(currentDate);
     sortEventsByDay(events);
-  }, [currentDate, events]);
+  }, [events]);
 
   const handleChangeMonth = (action: -1 | 1) => {
-    const tmpDate = currentDate;
-    tmpDate.setMonth(tmpDate.getMonth() + action);
-    makeMonthDaysGrid(tmpDate);
-    setCurrentMonth(monthString(tmpDate));
+    const newMonth = currentMonth + action;
+    makeMonthDaysGrid(dayjs(dayjs().month(newMonth)).toDate());
+    setCurrentMonth(newMonth);
   };
 
-  const handleSelectDate = (date: Date, events: EventType[] | undefined) => {
-    onSetDate(date, events);
+  const handleSelectDate = (date: Date) => {
+    onSetDate(date);
+  };
+
+  const handleSelectEvents = (events: EventType[] | null) => {
+    onSetEvents(events);
   };
 
   return (
     <Sheet>
       <CalendarControl
-        currentMonth={currentMonth}
+        currentMonth={dayjs(dayjs().month(currentMonth)).format('MMMM YYYY')}
         changeMonth={handleChangeMonth}
       />
       <Grid
@@ -107,6 +112,7 @@ export default function EventCalendar({
             events={eventsByDay[dayjs(day).get('date')]}
             selectedDate={selectedDate}
             onSelectDate={handleSelectDate}
+            onSelectEvents={handleSelectEvents}
           />
         ))}
       </Grid>
