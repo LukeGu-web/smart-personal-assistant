@@ -10,7 +10,12 @@ import taskRouter from './src/routes/task.router.js';
 const app = express();
 const port = process.env.PORT || 8000;
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+  })
+);
 
 app.get('/', (request, response) => {
   response.json({ message: 'ok' });

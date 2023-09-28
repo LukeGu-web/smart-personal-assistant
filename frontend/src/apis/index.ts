@@ -6,7 +6,8 @@ export const apiInstance = axios.create({
   baseURL: api_site,
   timeout: 6000,
   headers: {
+    'Access-Control-Request-Headers': ' Content-Type',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+    'Access-Control-Allow-Methods': '*',
   },
 });
