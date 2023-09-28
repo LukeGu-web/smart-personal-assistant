@@ -10,6 +10,7 @@ import FormLabel from '@mui/joy/FormLabel';
 import FormHelperText from '@mui/joy/FormHelperText';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
+import EditIcon from '@mui/icons-material/Edit';
 
 import DropZone from '../DropZone/DropZone';
 import { deleteUserById, updateUserById } from '../../apis/user';
@@ -67,9 +68,41 @@ export default function Profile() {
         mx: 'auto',
       }}
     >
-      <Typography level='h1' fontSize='xl2' sx={{ mb: 4 }}>
-        My profile
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          mb: 4,
+        }}
+      >
+        <Typography level='h1' fontSize='xl2'>
+          My profile
+        </Typography>
+        {isEdit ? (
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button
+              variant='outlined'
+              color='neutral'
+              size='md'
+              onClick={() => setIsEdit(false)}
+            >
+              Cancel
+            </Button>
+            <Button size='md' color='success' type='submit'>
+              Save
+            </Button>
+          </Box>
+        ) : (
+          <Button
+            size='md'
+            startDecorator={<EditIcon />}
+            onClick={() => setIsEdit(true)}
+          >
+            Edit
+          </Button>
+        )}
+      </Box>
       <Box
         component='form'
         onSubmit={(event: React.FormEvent<ProfileFormElement>) =>
@@ -151,42 +184,6 @@ export default function Profile() {
           <Input defaultValue='UI Developer' />
         </FormControl>
         <Divider role='presentation' />
-        {isEdit ? (
-          <Box
-            sx={{
-              gridColumn: '1/-1',
-              justifySelf: 'flex-end',
-              display: 'flex',
-              gap: 1,
-            }}
-          >
-            <Button
-              variant='outlined'
-              color='neutral'
-              size='md'
-              onClick={() => setIsEdit(false)}
-            >
-              Cancel
-            </Button>
-            <Button size='md' color='success' type='submit'>
-              Save
-            </Button>
-          </Box>
-        ) : (
-          <Button
-            size='md'
-            fullWidth
-            sx={{
-              gridColumn: '1/-1',
-              justifySelf: 'flex-end',
-              display: 'flex',
-            }}
-            onClick={() => setIsEdit(true)}
-          >
-            Edit
-          </Button>
-        )}
-        <Divider role='presentation' />
         <Button
           size='lg'
           color='danger'
@@ -194,6 +191,7 @@ export default function Profile() {
             gridColumn: '1/-1',
             justifySelf: 'flex-end',
             display: 'flex',
+            margin: { xs: '0 auto', sm: '0' },
           }}
           onClick={handleDeleteUser}
         >

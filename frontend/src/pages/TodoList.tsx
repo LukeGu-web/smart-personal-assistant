@@ -6,14 +6,17 @@ import PageContainer from '../components/PageContainer/PageContainer';
 import TaskCreator from '../components/TaskCreator/TaskCreator';
 import TaskList from '../components/TaskList/TaskList';
 
-import { TaskProps } from '../types';
+import { getTokenDecode } from '../utils/token';
+import { TaskProps, DecodedToken } from '../types';
 import { mockList } from '../mockData';
 
 export default function TodoList() {
   const [taskList, setTaskList] = useState<TaskProps[]>(mockList);
+  const decode = getTokenDecode() as DecodedToken;
   const handleTaskCreate = (label: string) => {
     const newList = taskList;
     newList.push({
+      userId: decode.id,
       id: `${newList.length}-${label}`,
       label: label,
       isCompleted: false,
