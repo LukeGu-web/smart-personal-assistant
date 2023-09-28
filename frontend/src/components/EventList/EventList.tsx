@@ -12,8 +12,9 @@ import { EventType } from '../../types';
 
 export type EventListProps = {
   events: EventType[] | undefined | null;
+  selectedDate: Date;
 };
-export default function EventList({ events }: EventListProps) {
+export default function EventList({ events, selectedDate }: EventListProps) {
   return (
     <Box sx={{ border: '1px solid grey' }}>
       {events ? (
@@ -38,7 +39,7 @@ export default function EventList({ events }: EventListProps) {
         </AccordionGroup>
       ) : (
         <Typography sx={{ padding: 1 }}>
-          You don't have any event on the day.
+          You don't have any event on {dayjs(selectedDate).format('MMM DD')}.
         </Typography>
       )}
     </Box>

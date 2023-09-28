@@ -1,4 +1,5 @@
-import dayjs from 'dayjs';
+import { useState, useEffect } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
 import {
   Typography,
   Modal,
@@ -14,18 +15,37 @@ import {
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { EventType } from '../../types';
+
+interface FormElements extends HTMLFormControlsCollection {
+  title: HTMLInputElement;
+  description: HTMLInputElement;
+}
+interface EventFormElement extends HTMLFormElement {
+  readonly elements: FormElements;
+}
 
 type EventModalProps = {
   isOpen: boolean;
-  onClose: () => void;
   selectedDate: Date;
+  onClose: () => void;
+  onCreate: (newEvent: EventType) => void;
 };
 
 export default function EventModal({
   isOpen,
-  onClose,
   selectedDate,
+  onClose,
+  onCreate,
 }: EventModalProps) {
+  const [start, setStart] = useState<Dayjs | null>(dayjs(selectedDate));
+  const [end, setEnd] = useState<Dayjs | null>(
+    dayjs(selectedDate).add(30, 'minute')
+  );
+  useEffect(() => {
+    setStart(dayjs(selectedDate));
+    setEnd(dayjs(selectedDate).add(30, 'minute'));
+  }, [selectedDate]);
   return (
     <Modal open={isOpen} onClose={onClose}>
       <ModalDialog
@@ -41,33 +61,54 @@ export default function EventModal({
           Fill in the information of the event.
         </Typography>
         <form
-          onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+          onSubmit={(event: React.FormEvent<EventFormElement>) => {
             event.preventDefault();
+            const formElements = event.currentTarget.elements;
+            const data = {
+              title: formElements.title.value,
+              start: (start as Dayjs).toDate(),
+              end: (end as Dayjs).toDate(),
+              description: formElements.description.value,
+            };
+            onCreate(data);
+            console.log('data: ', data);
             onClose();
           }}
         >
           <Stack spacing={2}>
             <FormControl>
-              <Input placeholder='Add a title' autoFocus required />
+              <Input
+                type='text'
+                name='title'
+                placeholder='Add a title'
+                autoFocus
+                required
+              />
             </FormControl>
             <FormControl>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Stack spacing={1}>
                   <DateTimePicker
                     label='Start from'
-                    defaultValue={dayjs(selectedDate)}
                     views={['month', 'day', 'hours', 'minutes']}
+                    value={start}
+                    onChange={(date) => setStart(date)}
                   />
                   <DateTimePicker
                     label='End at'
-                    defaultValue={dayjs(selectedDate).add(30, 'minute')}
                     views={['month', 'day', 'hours', 'minutes']}
+                    value={end}
+                    onChange={(date) => setEnd(date)}
                   />
                 </Stack>
               </LocalizationProvider>
             </FormControl>
             <FormControl>
-              <Textarea minRows={4} placeholder='Add a description' />
+              <Textarea
+                name='description'
+                minRows={4}
+                placeholder='Add a description'
+              />
             </FormControl>
             <Button type='submit'>Create</Button>
           </Stack>

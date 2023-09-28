@@ -4,20 +4,26 @@ import { Box, Button, Typography } from '@mui/joy';
 import PageContainer from '../components/PageContainer/PageContainer';
 import EventCalendar from '../components/EventCalendar/EventCalendar';
 import EventModal from '../components/EventModal/EventModal';
-import { mockEvents } from '../mockData';
 import EventList from '../components/EventList/EventList';
 import { EventType } from '../types';
+import { mockEvents } from '../mockData';
 
 export default function Calendar() {
   const today = new Date();
+  const [events, setEvents] = useState<EventType[]>(mockEvents);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedEvents, setSelectedEvents] = useState<EventType[] | null>(
     null
   );
 
-  const handleCreateEvent = () => {
-    setOpenModal(true);
+  const handleCreateEvent = (newEvent: EventType) => {
+    setEvents([...events, newEvent]);
+    if (selectedEvents) {
+      setSelectedEvents([...selectedEvents, newEvent]);
+    } else {
+      setSelectedEvents([newEvent]);
+    }
   };
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -48,10 +54,10 @@ export default function Calendar() {
           <Typography component='h1' fontSize='xl2' fontWeight='lg'>
             Event Calendar
           </Typography>
-          <Button onClick={handleCreateEvent}>New event</Button>
+          <Button onClick={() => setOpenModal(true)}>New event</Button>
         </Box>
         <EventCalendar
-          events={mockEvents}
+          events={events}
           currentDate={today}
           selectedDate={selectedDate}
           onSetDate={setSelectedDate}
@@ -59,10 +65,14 @@ export default function Calendar() {
         />
         <EventModal
           isOpen={openModal}
+          onCreate={handleCreateEvent}
           onClose={handleCloseModal}
           selectedDate={selectedDate || today}
         />
-        <EventList events={selectedEvents} />
+        <EventList
+          events={selectedEvents}
+          selectedDate={selectedDate || today}
+        />
       </Box>
     </PageContainer>
   );
