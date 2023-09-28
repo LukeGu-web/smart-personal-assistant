@@ -1,28 +1,16 @@
 import { useState } from 'react';
-import {
-  Box,
-  Link,
-  Stack,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemDecorator,
-  ListDivider,
-  Typography,
-  Modal,
-} from '@mui/joy';
-import TaskIcon from '@mui/icons-material/Task';
-
-import { Link as RouterLink } from 'react-router-dom';
+import { Box, Stack, Typography, Modal } from '@mui/joy';
 
 import AIButton from '../components/AIButton/AIButton';
 import MessagesPane from '../components/MessagesPane/MessagesPane';
 import PageContainer from '../components/PageContainer/PageContainer';
+import HomeEventList from '../components/HomeEventList/HomeEventList';
 import { getEventsByDay } from '../utils/calendar';
-import { mockList, mockEvents } from '../mockData';
 import { getTokenDecode } from '../utils/token';
 import { DecodedToken } from '../types';
-import { HomeEventList } from '../components/HomeEventList/HomeEventList';
+
+import { mockList, mockEvents } from '../mockData';
+import HomeTaskList from '../components/HomeTaskList/HomeTaskList';
 
 export default function Home() {
   const [showChat, setShowChat] = useState(false);
@@ -42,7 +30,7 @@ export default function Home() {
           flexDirection: 'column',
           gap: 2,
           margin: '0 auto',
-          // backdropFilter: 'blur(4px)',
+          padding: { xs: '1rem', md: '0' },
         }}
       >
         <Typography
@@ -54,46 +42,30 @@ export default function Home() {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr);',
+            gridTemplateColumns: {
+              xs: 'repeat(1, minmax(0, 1fr))',
+              sm: 'repeat(2, 1fr)',
+            },
             gridTemplateRows: '1fr',
             gap: 2,
           }}
         >
-          <Stack sx={{}}>
-            <Typography>Remaining Tasks</Typography>
-            <List
-              aria-labelledby='todo-task-list'
-              sx={{ border: '1px solid grey', borderRadius: '6px' }}
+          <Stack>
+            <Typography
+              component='h2'
+              sx={{ marginBottom: '.5rem', fontSize: '1.2rem' }}
             >
-              {mockList.map((task) => (
-                <ListItem key={task.id}>
-                  <ListItemButton>{task.label}</ListItemButton>
-                </ListItem>
-              ))}
-              <ListDivider inset='gutter' />
-              <ListItem>
-                <ListItemDecorator>
-                  <TaskIcon />
-                </ListItemDecorator>
-                <Link
-                  component={RouterLink}
-                  to='/todo-list'
-                  sx={{
-                    width: '100%',
-                    '&:hover': {
-                      textDecorationLine: 'none',
-                    },
-                  }}
-                >
-                  <ListItemButton sx={{ width: '100%' }}>
-                    Go to Todo List
-                  </ListItemButton>
-                </Link>
-              </ListItem>
-            </List>
+              Remaining Tasks
+            </Typography>
+            <HomeTaskList tasks={mockList} />
           </Stack>
           <Stack>
-            <Typography>Coming Events</Typography>
+            <Typography
+              component='h2'
+              sx={{ marginBottom: '.5rem', fontSize: '1.2rem' }}
+            >
+              Coming Events
+            </Typography>
             <HomeEventList eventsByDay={eventsByDay} />
           </Stack>
         </Box>

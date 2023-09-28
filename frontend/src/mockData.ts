@@ -1,19 +1,22 @@
-import { EventType } from './types';
+import { EventType, TaskProps } from './types';
 
-export const mockList = [
+export const mockList: TaskProps[] = [
   {
+    userId: 'test',
     id: '0-Buy milk',
     label: 'Buy milk',
     isCompleted: false,
     completedDate: null,
   },
   {
+    userId: 'test',
     id: '1-Buy eggs',
     label: 'Buy eggs',
     isCompleted: false,
     completedDate: null,
   },
   {
+    userId: 'test',
     id: '2-Walk dog',
     label: 'Walk dog',
     isCompleted: true,

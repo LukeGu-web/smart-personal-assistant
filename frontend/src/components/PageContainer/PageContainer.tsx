@@ -6,7 +6,7 @@ import Stack from '@mui/joy/Stack';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { mergedTheme } from './theme';
+import { mergedTheme } from '../../theme';
 type PageContainerProps = {
   children: ReactElement;
 };
@@ -32,6 +32,7 @@ export default function PageContainer({ children }: PageContainerProps) {
       <Stack
         sx={(theme) => ({
           backgroundColor: theme.palette.background.default,
+          overflow: 'auto',
         })}
       >
         <Header />

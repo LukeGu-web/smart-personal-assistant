@@ -13,7 +13,11 @@ import dayjs from 'dayjs';
 import { Link as RouterLink } from 'react-router-dom';
 import { EventsByDay } from '../../types';
 
-export function HomeEventList({ eventsByDay }: { eventsByDay: EventsByDay }) {
+export default function HomeEventList({
+  eventsByDay,
+}: {
+  eventsByDay: EventsByDay;
+}) {
   const currentMonth = dayjs().format('MMMM');
   const dayEvents = [];
   for (const [key, value] of Object.entries(eventsByDay)) {
@@ -22,11 +26,12 @@ export function HomeEventList({ eventsByDay }: { eventsByDay: EventsByDay }) {
         <ListSubheader>{`${currentMonth} ${key}`}</ListSubheader>
         <List>
           {value.map((event) => (
-            <ListItem key={event.title}>
-              <ListItemButton>
-                {event.title}
-                <Chip>{dayjs(event.start).format('LT')}</Chip>
-              </ListItemButton>
+            <ListItem
+              key={event.title}
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+            >
+              {event.title}
+              <Chip>{dayjs(event.start).format('LT')}</Chip>
             </ListItem>
           ))}
         </List>
