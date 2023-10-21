@@ -1,16 +1,18 @@
-# Smart Assistant Front-end
+# Smart Assistant Back-end
 
-A frontend application for Smart Assistant using React, TypeScript, and Vite.
+Backend service for the Smart Assistant using Node.js, Express.js, and integrated with OpenAI.
 
 ## Technology Stack
 
-- React
-- TypeScript
-- Vite
+- Node.js
+- Express.js
+- Database: PostgreSQL
+- LLM Technology: OpenAI
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) (>= 18)
+- PostgreSQL setup and running
 
 ## Setting Up
 
@@ -30,4 +32,10 @@ npm install
 
 ```bash
 npm start
+```
+
+## Run Development Mode
+
+```bash
+npm run dev
 ```
