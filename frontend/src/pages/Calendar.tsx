@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/joy';
+import dayjs from 'dayjs';
 
 import PageContainer from '../components/PageContainer/PageContainer';
 import EventCalendar from '../components/EventCalendar/EventCalendar';
@@ -19,7 +20,10 @@ export default function Calendar() {
 
   const handleCreateEvent = (newEvent: EventType) => {
     setEvents([...events, newEvent]);
-    if (selectedEvents) {
+    if (
+      selectedEvents &&
+      dayjs(selectedEvents[0].start).isSame(newEvent.start, 'day')
+    ) {
       setSelectedEvents([...selectedEvents, newEvent]);
     } else {
       setSelectedEvents([newEvent]);

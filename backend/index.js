@@ -6,6 +6,7 @@ import 'dotenv/config';
 import chatRouter from './src/routes/chat.router.js';
 import userRouter from './src/routes/user.router.js';
 import taskRouter from './src/routes/task.router.js';
+import eventRouter from './src/routes/event.router.js';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -24,6 +25,7 @@ app.get('/', (request, response) => {
 app.use('/chat', chatRouter);
 app.use('/user', userRouter);
 app.use('/task', taskRouter);
+app.use('/event', eventRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

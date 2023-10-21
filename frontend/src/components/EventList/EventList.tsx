@@ -19,6 +19,9 @@ export default function EventList({ events, selectedDate }: EventListProps) {
     <Box sx={{ border: '1px solid grey' }}>
       {events ? (
         <AccordionGroup>
+          <Typography sx={{ padding: 1 }}>
+            {dayjs(selectedDate).format('MMMM DD')}
+          </Typography>
           {events &&
             (events as EventType[]).map((event) => (
               <Accordion key={event.title}>
@@ -39,7 +42,7 @@ export default function EventList({ events, selectedDate }: EventListProps) {
         </AccordionGroup>
       ) : (
         <Typography sx={{ padding: 1 }}>
-          You don't have any event on {dayjs(selectedDate).format('MMM DD')}.
+          You don't have any event on {dayjs(selectedDate).format('MMMM DD')}.
         </Typography>
       )}
     </Box>
