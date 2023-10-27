@@ -10,11 +10,16 @@ import eventRouter from './src/routes/event.router.js';
 
 const app = express();
 const port = process.env.PORT || 8000;
+const whiteList = [
+  'http://localhost:5173',
+  'https://ai-personal-assistant.netlify.app',
+];
+
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    origin: whiteList,
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
   })
 );
 
