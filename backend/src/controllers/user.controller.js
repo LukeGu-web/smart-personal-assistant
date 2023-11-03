@@ -242,7 +242,7 @@ export const resetPasswordByemail = async (request, response) => {
       { expiresIn: '1h' }
     );
     const link = `${process.env.HOST_SITE}/reset-password?token=${token}`;
-    const result = await sendEmail('mythnan@gmail.com', 'Password reset', link);
+    const result = await sendEmail(email, 'Password reset', link);
     if (result.success) {
       response.status(200).json(result);
     } else {
