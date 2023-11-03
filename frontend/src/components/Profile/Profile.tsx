@@ -89,7 +89,7 @@ export default function Profile() {
             >
               Cancel
             </Button>
-            <Button size='md' color='success' type='submit'>
+            <Button form='profileForm' size='md' color='success' type='submit'>
               Save
             </Button>
           </Box>
@@ -104,6 +104,7 @@ export default function Profile() {
         )}
       </Box>
       <Box
+        id='profileForm'
         component='form'
         onSubmit={(event: React.FormEvent<ProfileFormElement>) =>
           handleSave(event)
